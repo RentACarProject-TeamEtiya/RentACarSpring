@@ -1,5 +1,5 @@
 package com.etiya.rentACarSpring.core.utilities.adapter.fakeServices;
 
 public class deneme {
-    private int deneme;
+    private int denemee;
 }
