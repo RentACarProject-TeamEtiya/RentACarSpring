@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.etiya.rentACarSpring.businnes.request.CreditCardRentalRequest;
-import com.etiya.rentACarSpring.businnes.request.MessageRequest.UpdateMessageRequest;
 import com.etiya.rentACarSpring.businnes.request.PosServiceRequest;
 import com.etiya.rentACarSpring.core.utilities.adapter.posServiceAdapter.posSystemService;
 import org.springframework.beans.factory.annotation.Autowired;

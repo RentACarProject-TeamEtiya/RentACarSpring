@@ -5,11 +5,61 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="639878a2-ff84-47e6-8a59-fb3db46e61aa" name="Changes" comment="camelCase settings added">
-      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/fakeServices/TryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/message/LanguageService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/message/LanguageWordService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/message/WordService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/LanguageManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/LanguageWordManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/WordManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/MessageRequest/LanguageRequest/CreateLanguageRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/MessageRequest/LanguageRequest/DeleteLanguageRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/MessageRequest/LanguageRequest/UpdateLanguageRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/MessageRequest/LanguageWordRequest/CreateLanguageWordRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/MessageRequest/LanguageWordRequest/DeleteLanguageWordRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/MessageRequest/LanguageWordRequest/UpdateLanguageWordRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/MessageRequest/WordRequest/CreateWordRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/MessageRequest/WordRequest/DeleteWordRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/MessageRequest/WordRequest/UpdateWordRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/message/LanguageDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/message/LanguageWordDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/message/WordDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/message/LanguageWord.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/message/Word.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/ws/message/LanguageWordsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/ws/message/LanguagesController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/ws/message/WordsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/MessageService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/deneme.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/BrandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/BrandManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/MessageManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/dtos/MessageSearchListDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/MessageRequest/CreateMessageRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/MessageRequest/DeleteMessageRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/MessageRequest/UpdateMessageRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/MessageDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/IndividualCustomer.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/IndividualCustomer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/message/Language.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/fakeServices/TryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/ws/MessagesController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/resources/application.properties" afterDir="false" />
     </list>
+    <list id="6061c40e-3abe-48b8-bb3b-a7902c0c422e" name="Changes by anil.arslan" comment="">
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/dtos/message/LanguageSearchListDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/dtos/message/LanguageWordSearchListDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/dtos/message/WordSearchListDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/complexTypes/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/RentalManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/RentalManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/CarMaintenanceRequest/UpdateCarMaintenanceRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/CarMaintenanceRequest/UpdateCarMaintenanceRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/core/utilities/results/SuccesResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/core/utilities/results/SuccesResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/RentalDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/RentalDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/message/Language.java" afterDir="false" />
+    </list>
     <list id="e2f67a6e-4c16-43a9-8ba2-eadfa36b2808" name="Changes by burak.kaya" comment="Changes by burak.kaya" />
+    <list id="6fdf34d8-dcc8-4cce-bbe2-928864c2d4a1" name="Changes by kubra.bayindir" comment="">
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/RentalService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/RentalService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,7 +85,6 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/Message.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/BrandManager.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="JpbToolWindowState">
@@ -53,6 +102,18 @@
         <entry key="JPA Structure" value="false" />
       </map>
     </option>
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/message/Language.java">
+      <ranges>
+        <range start1="0" end1="1" start2="0" end2="1" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="7" end1="7" start2="7" end2="8" changelist="6061c40e-3abe-48b8-bb3b-a7902c0c422e" />
+        <range start1="12" end1="14" start2="13" end2="15" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="17" end1="19" start2="18" end2="20" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="20" end1="22" start2="21" end2="23" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="23" end1="25" start2="24" end2="26" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+      </ranges>
+    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -167,7 +228,8 @@
       <workItem from="1639770681558" duration="7000" />
       <workItem from="1639773631400" duration="28000" />
       <workItem from="1640589017210" duration="1435000" />
-      <workItem from="1640590595767" duration="2496000" />
+      <workItem from="1640590595767" duration="7588000" />
+      <workItem from="1640608724594" duration="8979000" />
     </task>
     <task id="LOCAL-00001" summary="new update">
       <created>1638388948248</created>
