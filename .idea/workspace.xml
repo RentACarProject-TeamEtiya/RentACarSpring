@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="639878a2-ff84-47e6-8a59-fb3db46e61aa" name="Changes" comment="camelCase settings added">
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/fakeServices/TryService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/resources/application.properties" afterDir="false" />
     </list>
     <list id="e2f67a6e-4c16-43a9-8ba2-eadfa36b2808" name="Changes by burak.kaya" comment="Changes by burak.kaya" />
@@ -167,7 +167,7 @@
       <workItem from="1639770681558" duration="7000" />
       <workItem from="1639773631400" duration="28000" />
       <workItem from="1640589017210" duration="1435000" />
-      <workItem from="1640590595767" duration="1111000" />
+      <workItem from="1640590595767" duration="2496000" />
     </task>
     <task id="LOCAL-00001" summary="new update">
       <created>1638388948248</created>
