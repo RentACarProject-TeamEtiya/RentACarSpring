@@ -4,7 +4,6 @@ import java.util.List;
 
 
 import com.etiya.rentACarSpring.businnes.dtos.RentalSearchListDto;
-import com.etiya.rentACarSpring.businnes.request.MessageRequest.UpdateMessageRequest;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.CreateRentalRequest;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.DeleteRentaRequest;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.DropOffCarRequest;
