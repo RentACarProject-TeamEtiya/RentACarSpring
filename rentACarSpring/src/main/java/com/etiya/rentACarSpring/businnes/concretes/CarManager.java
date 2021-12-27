@@ -52,21 +52,21 @@ public class CarManager implements CarService {
         Car car = modelMapperService.forRequest().map(createCarRequest, Car.class);
         car.setFindexScore(findexScoreService.sendCarFindexScore());
         this.carDao.save(car);
-        return new SuccesResult(messageService.getByEnglishMessageByMessageId(4));
+        return new SuccesResult(messageService.getByEnglishMessageByMessageId(1));
     }
 
     @Override
     public Result update(UpdateCarRequest updateCarRequest) {
         Car car = modelMapperService.forRequest().map(updateCarRequest, Car.class);
         this.carDao.save(car);
-        return new SuccesResult(messageService.getByEnglishMessageByMessageId(7));
+        return new SuccesResult(messageService.getByEnglishMessageByMessageId(2));
     }
 
     @Override
     public Result delete(DeleteCarRequest deleteCarRequest) {
 
         this.carDao.deleteById(deleteCarRequest.getCarId());
-        return new SuccesResult(messageService.getByEnglishMessageByMessageId(6));
+        return new SuccesResult(messageService.getByEnglishMessageByMessageId(3));
 
     }
 
