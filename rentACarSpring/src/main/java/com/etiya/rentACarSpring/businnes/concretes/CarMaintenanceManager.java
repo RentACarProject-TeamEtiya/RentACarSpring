@@ -67,13 +67,17 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 
     @Override
     public Result update(UpdateCarMaintenanceRequest updateCarMaintenanceRequest) {
-//        Result result = BusinnessRules.run(checkDate(updateCarMaintenanceRequest.getMaintenanceDate(),updateCarMaintenanceRequest.getReturnDate()));
-//        if (result != null) {
-//            return result;
-//        }
-        CarMaintenance carMaintenance = modelMapperService.forRequest().map(updateCarMaintenanceRequest,
+        CarMaintenance carMaintenance=this.carMaintenanceDao.getById(updateCarMaintenanceRequest.getCarMaintenanceId());
+        Result result = BusinnessRules.run(checkDate(carMaintenance.getMaintananceDate(),updateCarMaintenanceRequest.getReturnDate()));
+        if (result != null) {
+            return result;
+        }
+        CarMaintenance updatedCarMaintenance = modelMapperService.forRequest().map(updateCarMaintenanceRequest,
                 CarMaintenance.class);
-        this.carMaintenanceDao.save(carMaintenance);
+
+        updatedCarMaintenance.setCar(carMaintenance.getCar());
+        updatedCarMaintenance.setMaintananceDate(carMaintenance.getMaintananceDate());
+        this.carMaintenanceDao.save(updatedCarMaintenance);
         return new SuccesResult(Messages.updatedColor);
     }
 

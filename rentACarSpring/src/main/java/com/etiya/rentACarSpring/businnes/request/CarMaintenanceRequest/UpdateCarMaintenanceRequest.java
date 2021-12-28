@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,9 +17,11 @@ import lombok.NoArgsConstructor;
 public class UpdateCarMaintenanceRequest {
 	@NotNull
 	private int carMaintenanceId;
+	@JsonIgnore
+	private Date maintananceDate;
 	@NotNull
 	private Date returnDate;
-
-	//private Date maintenanceDate;
+	@JsonIgnore
+	private int carId;
 
 }

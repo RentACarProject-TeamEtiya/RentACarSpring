@@ -13,7 +13,9 @@ import com.etiya.rentACarSpring.core.utilities.results.*;
 import com.etiya.rentACarSpring.dataAccess.abstracts.message.LanguageWordDao;
 import com.etiya.rentACarSpring.entities.message.Language;
 import com.etiya.rentACarSpring.entities.message.LanguageWord;
+import com.etiya.rentACarSpring.entities.message.Word;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +24,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class LanguageWordManager implements LanguageWordService {
+    @Value("${language}")
+    private Integer languageId;
+    @Value("${defaultLanguage}")
+    private Integer defaultLanguageId;
 
     private LanguageWordDao languageWordDao;
     private ModelMapperService modelMapperService;
@@ -68,8 +74,21 @@ public class LanguageWordManager implements LanguageWordService {
     }
 
     @Override
-    public String getByLanguageAndKeyId(int wordId, int language) {
-     return this.languageWordDao.getMessageByLanguageIdAndKey(wordId, language);
+    public String getByLanguageAndKeyId(String key, int language) {
+        getDefaultLanguage();
+        String messageContent=this.languageWordDao.getMessageByLanguageIdAndKey(key,this.languageId);
+        if (messageContent!=null){
+            return messageContent;
+        }
+        return this.languageWordDao.getMessageByLanguageIdAndKey(key, language);
     }
+
+    private void getDefaultLanguage(){
+        if(!this.languageService.checkLanguageExists(this.languageId).isSuccess()){
+            this.languageId=this.defaultLanguageId;
+        }
+    }
+
+
 
 }

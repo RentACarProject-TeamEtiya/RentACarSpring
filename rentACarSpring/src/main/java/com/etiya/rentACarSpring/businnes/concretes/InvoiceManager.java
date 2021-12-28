@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import ch.qos.logback.core.CoreConstants;
 import com.etiya.rentACarSpring.businnes.abstracts.*;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.DropOffCarRequest;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
@@ -106,6 +107,7 @@ public class InvoiceManager implements InvoiceService {
     private int calculateDifferenceBetweenDays(Date maxDate, Date minDate) {
         long difference = (maxDate.getTime() - minDate.getTime()) / 86400000;
         return Math.abs((int) difference);
+
     }
 
     private DataResult<Integer> ifCarReturnedToDifferentCity(int rentalId, int returnCityId) {
