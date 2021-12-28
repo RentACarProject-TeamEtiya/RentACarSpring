@@ -1,5 +1,6 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,6 +67,10 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 
     @Override
     public Result update(UpdateCarMaintenanceRequest updateCarMaintenanceRequest) {
+//        Result result = BusinnessRules.run(checkDate(updateCarMaintenanceRequest.getMaintenanceDate(),updateCarMaintenanceRequest.getReturnDate()));
+//        if (result != null) {
+//            return result;
+//        }
         CarMaintenance carMaintenance = modelMapperService.forRequest().map(updateCarMaintenanceRequest,
                 CarMaintenance.class);
         this.carMaintenanceDao.save(carMaintenance);
@@ -74,7 +79,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 
     @Override
     public Result delete(DeleteCarMaintenanceRequest deleteCarMaintenanceRequest) {
-        this.carMaintenanceDao.deleteById(deleteCarMaintenanceRequest.getCarMaintenanseId());
+        this.carMaintenanceDao.deleteById(deleteCarMaintenanceRequest.getCarMaintenanceId());
         return new SuccesResult(Messages.deletedColor);
     }
 
@@ -102,6 +107,13 @@ public class CarMaintenanceManager implements CarMaintenanceService {
             return new ErrorResult("Araç kirada olduğu için bakıma gönderilemez.");
         }
         return new SuccesResult();
+    }
+
+    private Result checkDate(Date maintenanceDate, Date returnDate){
+        if (maintenanceDate.compareTo(returnDate)<0){
+            return new SuccesResult();
+        }
+        return new ErrorResult("Bakıma yollama tarihi dönüş tarihinden sonraki bir tarih olamaz.");
     }
 
 }
