@@ -15,8 +15,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateCarMaintenanceRequest {
 	@NotNull
-	private int carMaintenanseId;
+	private int carMaintenanceId;
 	@NotNull
 	private Date returnDate;
+
+	//private Date maintenanceDate;
 
 }

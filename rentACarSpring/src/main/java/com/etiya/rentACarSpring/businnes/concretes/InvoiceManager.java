@@ -126,7 +126,6 @@ public class InvoiceManager implements InvoiceService {
 
     public Integer rentOfTotalPrice(DropOffCarRequest dropOffCarRequest) {
         int dailyPriceOfCar=this.rentalService.getDailyPriceOfRentedCar(dropOffCarRequest.getRentalId()).getData();
-        //int dailyPriceOfCar = (int) (carService.getbyId(dropOffCarRequest.getCarId()).getData().getDailyPrice());
         int priceOfDiffrentCity = ifCarReturnedToDifferentCity(dropOffCarRequest.getRentalId(), dropOffCarRequest.getReturnCityId()).getData();
         int addtionalServicePrice = rentalService.sumAdditionalServicePriceByRentalId(dropOffCarRequest.getRentalId()) * rentOfTotalRentDate(dropOffCarRequest);
         int totalPrice = (rentOfTotalRentDate(dropOffCarRequest) * dailyPriceOfCar) + priceOfDiffrentCity + addtionalServicePrice;
