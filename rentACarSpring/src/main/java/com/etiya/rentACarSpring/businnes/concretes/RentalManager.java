@@ -94,7 +94,7 @@ public class RentalManager implements RentalService {
     public Result dropOffCar(DropOffCarRequest dropOffCarRequest) {
         Rental result = this.rentalDao.getByRentalId(dropOffCarRequest.getRentalId());
         Rental rental = modelMapperService.forRequest().map(dropOffCarRequest, Rental.class);
-        var car = this.carService.getById(rental.getCar().getCarId()).getData();
+        Car car = this.carService.getById(rental.getCar().getCarId()).getData();
 
         Result rules = BusinnessRules.run(checkCreditCardBalance(dropOffCarRequest,
                         dropOffCarRequest.getCreditCardRentalRequest()),
@@ -175,7 +175,7 @@ public class RentalManager implements RentalService {
     }
 
     private Result checkReturnDate(int rentalId) {
-        var result = this.rentalDao.getByRentalId(rentalId);
+        Rental result = this.rentalDao.getByRentalId(rentalId);
         if ((result.getReturnDate() != null)) {
             return new ErrorResult("Araba zaten geri dönmüş durumda.");
         }

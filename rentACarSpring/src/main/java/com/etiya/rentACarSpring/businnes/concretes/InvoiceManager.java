@@ -9,6 +9,7 @@ import com.etiya.rentACarSpring.businnes.abstracts.*;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.DropOffCarRequest;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.results.*;
+import com.etiya.rentACarSpring.entities.Rental;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -142,7 +143,7 @@ public class InvoiceManager implements InvoiceService {
     }
 
     private Result ifExistRentalIdOnInvoice(int rentalId) {
-        var result = this.invoiceDao.countByRental_RentalId(rentalId);
+        Integer result = this.invoiceDao.countByRental_RentalId(rentalId);
         if (result > 0) {
             return new ErrorResult("Bu kiralamaya ait zaten bir fatura mevcut.Yenisini ekleyemezsiniz.Lütfen mevcut fatura üzerinde işlem yapınız.");
         }
