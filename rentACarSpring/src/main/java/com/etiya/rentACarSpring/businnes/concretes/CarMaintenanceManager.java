@@ -113,8 +113,8 @@ public class CarMaintenanceManager implements CarMaintenanceService {
         return new SuccesResult();
     }
 
-    private Result checkDate(Date maintenanceDate, Date returnDate){
-        if (maintenanceDate.compareTo(returnDate)<0){
+    private Result checkDate(Date maintananceDate, Date returnDate){
+        if (maintananceDate.compareTo(returnDate)<0){
             return new SuccesResult();
         }
         return new ErrorResult("Bakıma yollama tarihi dönüş tarihinden sonraki bir tarih olamaz.");

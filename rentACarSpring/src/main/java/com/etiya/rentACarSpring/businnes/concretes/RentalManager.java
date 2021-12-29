@@ -93,20 +93,22 @@ public class RentalManager implements RentalService {
     @Override
     public Result dropOffCar(DropOffCarRequest dropOffCarRequest) {
         Rental result = this.rentalDao.getByRentalId(dropOffCarRequest.getRentalId());
+        Rental rental = modelMapperService.forRequest().map(dropOffCarRequest, Rental.class);
+        var car = this.carService.getById(rental.getCar().getCarId()).getData();
 
         Result rules = BusinnessRules.run(checkCreditCardBalance(dropOffCarRequest,
                         dropOffCarRequest.getCreditCardRentalRequest()),
                 checkReturnDate(dropOffCarRequest.getRentalId()),
                 creditcardService.checkIfCreditCardCvvFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCvv()),
                 creditcardService.checkIfCreditCardFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCardNumber()),
-                checkDate(result.getRentDate(), dropOffCarRequest.getReturnDate())
+                checkDate(result.getRentDate(), dropOffCarRequest.getReturnDate()),
+                checkKilometer(Integer.parseInt(car.getKilometer()),dropOffCarRequest.getReturnKilometer())
         );
 
         if (rules != null) {
             return rules;
         }
 
-        Rental rental = modelMapperService.forRequest().map(dropOffCarRequest, Rental.class);
 
         rental.setRentalId(result.getRentalId());
         rental.setRentDate(result.getRentDate());
@@ -114,14 +116,14 @@ public class RentalManager implements RentalService {
         rental.setUser(result.getUser());
         rental.setCar(result.getCar());
 
-        this.rentalDao.save(rental);
 
-        this.invoiceService.add(dropOffCarRequest);
 
-        var car = this.carService.getById(rental.getCar().getCarId()).getData();
+
         car.setKilometer(rental.getReturnKilometer());
         car.setCity(rental.getReturnCity());
 
+        this.rentalDao.save(rental);
+        this.invoiceService.add(dropOffCarRequest);
         return new SuccesResult("Araç kiradan döndü ve fatura oluşturuldu.");
     }
 

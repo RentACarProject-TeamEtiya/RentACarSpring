@@ -1,0 +1,220 @@
+Index: rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/MessageService.java
+===================================================================
+diff --git a/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/MessageService.java b/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/MessageService.java
+deleted file mode 100644
+--- a/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/MessageService.java	
++++ /dev/null	
+@@ -1,21 +0,0 @@
+-package com.etiya.rentACarSpring.businnes.abstracts;
+-
+-
+-import com.etiya.rentACarSpring.businnes.request.MessageRequest.CreateMessageRequest;
+-import com.etiya.rentACarSpring.businnes.request.MessageRequest.DeleteMessageRequest;
+-import com.etiya.rentACarSpring.businnes.request.MessageRequest.UpdateMessageRequest;
+-import com.etiya.rentACarSpring.core.utilities.results.DataResult;
+-import com.etiya.rentACarSpring.core.utilities.results.Result;
+-import com.etiya.rentACarSpring.entities.Message;
+-
+-public interface MessageService {
+-    DataResult<Message> getById(int messageId);
+-    String getByEnglishMessageByMessageId(int messageId);
+-    String getByTurkishMessageByMessageId(int messageId);
+-
+-    Result save(CreateMessageRequest createMessageRequest);
+-
+-    Result update(UpdateMessageRequest updateMessageRequest);
+-
+-    Result delete(DeleteMessageRequest deleteMessageRequest);
+-}
+Index: rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/deneme.java
+===================================================================
+diff --git a/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/deneme.java b/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/deneme.java
+deleted file mode 100644
+--- a/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/deneme.java	
++++ /dev/null	
+@@ -1,4 +0,0 @@
+-package com.etiya.rentACarSpring.businnes.abstracts;
+-
+-public class deneme {
+-}
+Index: rentACarSpring/src/main/java/com/etiya/rentACarSpring/ws/MessagesController.java
+===================================================================
+diff --git a/rentACarSpring/src/main/java/com/etiya/rentACarSpring/ws/MessagesController.java b/rentACarSpring/src/main/java/com/etiya/rentACarSpring/ws/MessagesController.java
+deleted file mode 100644
+--- a/rentACarSpring/src/main/java/com/etiya/rentACarSpring/ws/MessagesController.java	
++++ /dev/null	
+@@ -1,42 +0,0 @@
+-package com.etiya.rentACarSpring.ws;
+-
+-import com.etiya.rentACarSpring.businnes.abstracts.MessageService;
+-import com.etiya.rentACarSpring.businnes.request.BrandRequest.CreateBrandRequest;
+-import com.etiya.rentACarSpring.businnes.request.BrandRequest.DeleteBrandRequest;
+-import com.etiya.rentACarSpring.businnes.request.BrandRequest.UpdateBrandRequest;
+-import com.etiya.rentACarSpring.businnes.request.MessageRequest.CreateMessageRequest;
+-import com.etiya.rentACarSpring.businnes.request.MessageRequest.DeleteMessageRequest;
+-import com.etiya.rentACarSpring.businnes.request.MessageRequest.UpdateMessageRequest;
+-import com.etiya.rentACarSpring.core.utilities.results.Result;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.web.bind.annotation.*;
+-
+-import javax.validation.Valid;
+-
+-@RestController
+-@RequestMapping("api/messages")
+-public class MessagesController {
+-    private MessageService messageService;
+-
+-    @Autowired
+-    public MessagesController(MessageService messageService) {
+-        this.messageService = messageService;
+-    }
+-
+-    @PostMapping("add")
+-    public Result add(@RequestBody @Valid CreateMessageRequest createMessageRequest) {
+-        return this.messageService.save(createMessageRequest);
+-    }
+-
+-    @PutMapping("update")
+-    public Result update(@RequestBody @Valid UpdateMessageRequest updateMessageRequest) {
+-        return this.messageService.update(updateMessageRequest);
+-    }
+-
+-    @DeleteMapping("delete")
+-    public Result delete(@RequestBody @Valid DeleteMessageRequest deleteMessageRequest) {
+-        return this.messageService.delete(deleteMessageRequest);
+-    }
+-
+-
+-}
+Index: rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/MessageDao.java
+===================================================================
+diff --git a/rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/MessageDao.java b/rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/MessageDao.java
+deleted file mode 100644
+--- a/rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/MessageDao.java	
++++ /dev/null	
+@@ -1,22 +0,0 @@
+-package com.etiya.rentACarSpring.dataAccess.abstracts;
+-
+-import com.etiya.rentACarSpring.entities.Brand;
+-import com.etiya.rentACarSpring.entities.Invoice;
+-import com.etiya.rentACarSpring.entities.Message;
+-import com.etiya.rentACarSpring.entities.complexTypes.CarDetail;
+-import org.springframework.data.jpa.repository.JpaRepository;
+-import org.springframework.data.jpa.repository.Query;
+-import org.springframework.data.repository.query.Param;
+-
+-import java.sql.Date;
+-import java.util.List;
+-
+-public interface MessageDao extends JpaRepository<Message, Integer> {
+-    @Query(value = "select m.english from messages as m where m.message_id=:messageId", nativeQuery = true)
+-    String  getEnglishMessageByMessageId(int messageId);
+-
+-
+-    @Query(value = "select m.turkish from messages as m where m.message_id=:messageId", nativeQuery = true)
+-    String  getTurkishMessageByMessageId(int messageId);
+-
+-}
+Index: rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/Message.java
+===================================================================
+diff --git a/rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/Message.java b/rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/Message.java
+deleted file mode 100644
+--- a/rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/Message.java	
++++ /dev/null	
+@@ -1,26 +0,0 @@
+-package com.etiya.rentACarSpring.entities;
+-
+-import lombok.AllArgsConstructor;
+-import lombok.Data;
+-import lombok.NoArgsConstructor;
+-
+-import javax.persistence.*;
+-
+-@Data
+-@AllArgsConstructor
+-@NoArgsConstructor
+-@Entity
+-@Table(name="messages")
+-public class Message {
+-
+-    @Id
+-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+-    @Column(name = "message_id")
+-    private int messageId;
+-
+-    @Column(name = "turkish")
+-    private String turkish;
+-
+-    @Column(name = "english")
+-    private String english;
+-}
+Index: rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/MessageManager.java
+===================================================================
+diff --git a/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/MessageManager.java b/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/MessageManager.java
+deleted file mode 100644
+--- a/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/MessageManager.java	
++++ /dev/null	
+@@ -1,63 +0,0 @@
+-package com.etiya.rentACarSpring.businnes.concretes;
+-
+-import com.etiya.rentACarSpring.businnes.abstracts.MessageService;
+-import com.etiya.rentACarSpring.businnes.request.MessageRequest.CreateMessageRequest;
+-import com.etiya.rentACarSpring.businnes.request.MessageRequest.DeleteMessageRequest;
+-import com.etiya.rentACarSpring.businnes.request.MessageRequest.UpdateMessageRequest;
+-import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
+-import com.etiya.rentACarSpring.core.utilities.results.DataResult;
+-import com.etiya.rentACarSpring.core.utilities.results.Result;
+-import com.etiya.rentACarSpring.core.utilities.results.SuccesDataResult;
+-import com.etiya.rentACarSpring.core.utilities.results.SuccesResult;
+-import com.etiya.rentACarSpring.dataAccess.abstracts.MessageDao;
+-import com.etiya.rentACarSpring.entities.Message;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.stereotype.Service;
+-
+-@Service
+-public class MessageManager implements MessageService {
+-
+-    MessageDao messageDao;
+-    ModelMapperService modelMapperService;
+-
+-    @Autowired
+-    public MessageManager(MessageDao messageDao, ModelMapperService modelMapperService) {
+-        this.messageDao = messageDao;
+-        this.modelMapperService = modelMapperService;
+-    }
+-
+-    @Override
+-    public DataResult<Message> getById(int messageId) {
+-        return new SuccesDataResult<Message>(this.messageDao.getById(messageId));
+-    }
+-
+-    @Override
+-    public String getByEnglishMessageByMessageId(int messageId) {
+-        return this.messageDao.getEnglishMessageByMessageId(messageId);
+-    }
+-
+-    @Override
+-    public String getByTurkishMessageByMessageId(int messageId) {
+-        return this.messageDao.getTurkishMessageByMessageId(messageId);
+-    }
+-
+-    @Override
+-    public Result save(CreateMessageRequest createMessageRequest) {
+-        Message message = modelMapperService.forRequest().map(createMessageRequest, Message.class);
+-        this.messageDao.save(message);
+-        return new SuccesResult("eklendi");
+-    }
+-
+-    @Override
+-    public Result update(UpdateMessageRequest updateMessageRequest) {
+-        Message message = modelMapperService.forRequest().map(updateMessageRequest, Message.class);
+-        this.messageDao.save(message);
+-        return new SuccesResult("Güncellendi");
+-    }
+-
+-    @Override
+-    public Result delete(DeleteMessageRequest deleteMessageRequest) {
+-        this.messageDao.deleteById(deleteMessageRequest.getMessageId());
+-        return new SuccesResult("Silindi");
+-    }
+-}

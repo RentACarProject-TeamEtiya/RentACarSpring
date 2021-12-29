@@ -4,18 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="639878a2-ff84-47e6-8a59-fb3db46e61aa" name="Changes" comment="camelCase settings added">
+    <list default="true" id="639878a2-ff84-47e6-8a59-fb3db46e61aa" name="Changes" comment="code refactor added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/message/LanguageWordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/message/LanguageWordService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarMaintenanceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarMaintenanceManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/InvoiceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/InvoiceManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/RentalManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/RentalManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/LanguageWordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/LanguageWordManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/CarMaintenanceRequest/UpdateCarMaintenanceRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/CarMaintenanceRequest/UpdateCarMaintenanceRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/message/LanguageWordDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/message/LanguageWordDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/message/LanguageWord.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/entities/message/LanguageWord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/WordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/WordManager.java" afterDir="false" />
     </list>
     <list id="6061c40e-3abe-48b8-bb3b-a7902c0c422e" name="Changes by anil.arslan" comment="" />
     <list id="a8ba2bd2-329f-475a-aa35-7fbf1e751a0c" name="Changes by kubra.bayindir" comment="">
@@ -71,15 +64,6 @@
         <entry key="JPA Structure" value="false" />
       </map>
     </option>
-  </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarMaintenanceManager.java">
-      <ranges>
-        <range start1="69" end1="74" start2="69" end2="75" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
-        <range start1="75" end1="76" start2="76" end2="80" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
-        <range start1="111" end1="113" start2="115" end2="117" changelist="a8ba2bd2-329f-475a-aa35-7fbf1e751a0c" />
-      </ranges>
-    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -183,6 +167,8 @@
       <workItem from="1640589017210" duration="1435000" />
       <workItem from="1640590595767" duration="7588000" />
       <workItem from="1640608724594" duration="8979000" />
+      <workItem from="1640726341209" duration="2605000" />
+      <workItem from="1640757574602" duration="2673000" />
     </task>
     <task id="LOCAL-00001" summary="new update">
       <created>1638388948248</created>
@@ -380,7 +366,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639683507510</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="code refactor added">
+      <created>1640707106800</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1640707106800</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -408,6 +401,7 @@
     <MESSAGE value="new operations added" />
     <MESSAGE value="Code Review Completed" />
     <MESSAGE value="camelCase settings added" />
-    <option name="LAST_COMMIT_MESSAGE" value="camelCase settings added" />
+    <MESSAGE value="code refactor added" />
+    <option name="LAST_COMMIT_MESSAGE" value="code refactor added" />
   </component>
 </project>
