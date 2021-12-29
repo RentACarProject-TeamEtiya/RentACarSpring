@@ -5,21 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="639878a2-ff84-47e6-8a59-fb3db46e61aa" name="Changes" comment="camelCase settings added">
+      <change afterPath="$PROJECT_DIR$/rentACarSpring/src/test/system.proporties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/RentalManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/RentalManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/WordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/WordManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/message/WordDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/message/WordDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/pom.xml" afterDir="false" />
     </list>
-    <list id="6061c40e-3abe-48b8-bb3b-a7902c0c422e" name="Changes by anil.arslan" comment="">
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/LanguageWordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/LanguageWordManager.java" afterDir="false" />
-    </list>
-    <list id="a8ba2bd2-329f-475a-aa35-7fbf1e751a0c" name="Changes by kubra.bayindir" comment="">
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/message/WordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/message/WordService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/LanguageWordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/LanguageWordManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/WordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/WordManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/message/WordDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/message/WordDao.java" afterDir="false" />
-    </list>
+    <list id="a8ba2bd2-329f-475a-aa35-7fbf1e751a0c" name="Changes by kubra.bayindir" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -70,27 +61,6 @@
         <entry key="JPA Structure" value="false" />
       </map>
     </option>
-  </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/WordManager.java">
-      <ranges>
-        <range start1="60" end1="61" start2="60" end2="61" changelist="a8ba2bd2-329f-475a-aa35-7fbf1e751a0c" />
-        <range start1="66" end1="66" start2="66" end2="75" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/dataAccess/abstracts/message/WordDao.java">
-      <ranges>
-        <range start1="4" end1="4" start2="4" end2="6" changelist="a8ba2bd2-329f-475a-aa35-7fbf1e751a0c" />
-        <range start1="6" end1="6" start2="8" end2="10" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/LanguageWordManager.java">
-      <ranges>
-        <range start1="79" end1="79" start2="79" end2="82" changelist="6061c40e-3abe-48b8-bb3b-a7902c0c422e" />
-        <range start1="90" end1="90" start2="93" end2="101" changelist="a8ba2bd2-329f-475a-aa35-7fbf1e751a0c" />
-        <range start1="94" end1="95" start2="105" end2="105" changelist="a8ba2bd2-329f-475a-aa35-7fbf1e751a0c" />
-      </ranges>
-    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -194,7 +164,7 @@
       <workItem from="1640589017210" duration="1435000" />
       <workItem from="1640590595767" duration="7588000" />
       <workItem from="1640608724594" duration="8979000" />
-      <workItem from="1640758123595" duration="5231000" />
+      <workItem from="1640758123595" duration="6028000" />
     </task>
     <task id="LOCAL-00001" summary="new update">
       <created>1638388948248</created>

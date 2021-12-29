@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="northwindSpring" target="11" />
+      <module name="northwindSpring" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
