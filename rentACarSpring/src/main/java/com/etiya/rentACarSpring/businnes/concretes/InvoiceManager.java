@@ -135,11 +135,13 @@ public class InvoiceManager implements InvoiceService {
         return totalPrice;
 
     }
-
     private Integer rentOfTotalRentDate(DropOffCarRequest dropOffCarRequest) {
         Date rentDateForInvoice = (Date) (rentalService.getById(dropOffCarRequest.getRentalId()).getRentDate());
         int totalRentDay = calculateDifferenceBetweenDays(dropOffCarRequest.getReturnDate(), rentDateForInvoice);
-        return totalRentDay;
+        if (totalRentDay == 0){ // bir günden az kullansa bari bir günlük ücret.
+            totalRentDay = 1;
+        }
+        return  totalRentDay;
     }
 
     private Result ifExistRentalIdOnInvoice(int rentalId) {

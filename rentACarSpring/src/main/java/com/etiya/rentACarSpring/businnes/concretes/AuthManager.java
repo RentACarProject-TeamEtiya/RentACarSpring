@@ -77,7 +77,7 @@ public class AuthManager implements AuthService {
 
     @Override
     public Result login(LoginRequest loginRequest) {
-        var result = BusinnessRules.run(checkCustomerEmailIsTrue(loginRequest), checkCustomerPasswordIsTrue(loginRequest));
+        Result result = BusinnessRules.run(checkCustomerEmailIsTrue(loginRequest), checkCustomerPasswordIsTrue(loginRequest));
 
         if (result != null) {
             return result;

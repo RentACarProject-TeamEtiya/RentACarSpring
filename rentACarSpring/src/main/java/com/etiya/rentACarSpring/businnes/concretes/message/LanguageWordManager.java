@@ -91,15 +91,4 @@ public class LanguageWordManager implements LanguageWordService {
             this.languageId=this.defaultLanguageId;
         }
     }
-
-    private Result returnDefaultKey(String key){
-        if (!wordService.checkKeyExists(key).isSuccess()){
-            return new SuccesResult(key);
-        }
-        return new ErrorResult();
-    }
-
-
-
-
 }

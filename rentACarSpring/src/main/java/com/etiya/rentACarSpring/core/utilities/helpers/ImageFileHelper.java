@@ -21,7 +21,7 @@ public class ImageFileHelper implements FileHelper {
 
 	@Override
 	public Result uploadImage(int carId, MultipartFile file) throws IOException {
-		var result = BusinnessRules.run(checkImageType(file));
+		Result result = BusinnessRules.run(checkImageType(file));
 
 		if (result != null) {
 			return result;
@@ -41,7 +41,7 @@ public class ImageFileHelper implements FileHelper {
 	@Override
 	public Result updateImage(MultipartFile file, String imagePath) throws IOException {
 
-		var result = BusinnessRules.run(checkImageType(file));
+		Result result = BusinnessRules.run(checkImageType(file));
 		if (result != null) {
 			return result;
 		}
@@ -61,7 +61,7 @@ public class ImageFileHelper implements FileHelper {
 
 	@Override
 	public Result deleteImage(String imageUrl) {
-		if (!imageUrl.isEmpty() && !imageUrl.isBlank()) {
+		if (!imageUrl.isEmpty() ) {
 
 			File file = new File(imagePath + imageUrl);
 			file.delete();

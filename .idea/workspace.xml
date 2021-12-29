@@ -6,13 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="639878a2-ff84-47e6-8a59-fb3db46e61aa" name="Changes" comment="camelCase settings added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/ImageManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/ImageManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/InvoiceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/InvoiceManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/RentalManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/RentalManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/constants/FilePath.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/constants/FilePath.java" afterDir="false" />
     </list>
     <list id="16e890e8-075d-4888-9158-bd12d400c1cf" name="Changes by anil.arslan" comment="">
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/ImageManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/ImageManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/AuthManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/AuthManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/InvoiceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/InvoiceManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/LanguageWordManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/message/LanguageWordManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/core/utilities/helpers/ImageFileHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/core/utilities/helpers/ImageFileHelper.java" afterDir="false" />
     </list>
     <list id="a8ba2bd2-329f-475a-aa35-7fbf1e751a0c" name="Changes by kubra.bayindir" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -67,15 +67,10 @@
     </option>
   </component>
   <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/ImageManager.java">
+    <file path="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/InvoiceManager.java">
       <ranges>
-        <range start1="52" end1="53" start2="52" end2="53" changelist="16e890e8-075d-4888-9158-bd12d400c1cf" />
-        <range start1="61" end1="62" start2="61" end2="61" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
-        <range start1="63" end1="64" start2="62" end2="62" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
-        <range start1="69" end1="70" start2="67" end2="67" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
-        <range start1="71" end1="72" start2="68" end2="68" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
-        <range start1="73" end1="74" start2="69" end2="69" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
-        <range start1="81" end1="82" start2="76" end2="77" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="137" end1="138" start2="137" end2="137" changelist="16e890e8-075d-4888-9158-bd12d400c1cf" />
+        <range start1="141" end1="142" start2="140" end2="144" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
       </ranges>
     </file>
   </component>
@@ -182,7 +177,8 @@
       <workItem from="1640590595767" duration="7588000" />
       <workItem from="1640608724594" duration="8979000" />
       <workItem from="1640758123595" duration="6843000" />
-      <workItem from="1640786128837" duration="361000" />
+      <workItem from="1640786128837" duration="3361000" />
+      <workItem from="1640789544003" duration="1047000" />
     </task>
     <task id="LOCAL-00001" summary="new update">
       <created>1638388948248</created>
