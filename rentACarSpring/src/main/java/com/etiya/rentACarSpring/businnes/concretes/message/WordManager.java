@@ -65,7 +65,7 @@ public class WordManager implements WordService {
         return new ErrorResult("hata");
     }
 
-    
+
 
 }
 
