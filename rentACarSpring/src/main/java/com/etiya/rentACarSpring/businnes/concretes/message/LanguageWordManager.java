@@ -77,6 +77,9 @@ public class LanguageWordManager implements LanguageWordService {
     public String getByLanguageAndKeyId(String key, int language) {
         getDefaultLanguage();
         String messageContent=this.languageWordDao.getMessageByLanguageIdAndKey(key,this.languageId);
+        if (!wordService.checkKeyExists(key).isSuccess()){
+            return key;
+        }
         if (messageContent!=null){
             return messageContent;
         }
@@ -88,8 +91,4 @@ public class LanguageWordManager implements LanguageWordService {
             this.languageId=this.defaultLanguageId;
         }
     }
-
-
-
-
 }

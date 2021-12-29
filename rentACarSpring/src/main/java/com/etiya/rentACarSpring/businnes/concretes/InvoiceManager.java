@@ -9,6 +9,7 @@ import com.etiya.rentACarSpring.businnes.abstracts.*;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.DropOffCarRequest;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.results.*;
+import com.etiya.rentACarSpring.entities.Rental;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -134,15 +135,17 @@ public class InvoiceManager implements InvoiceService {
         return totalPrice;
 
     }
-
     private Integer rentOfTotalRentDate(DropOffCarRequest dropOffCarRequest) {
         Date rentDateForInvoice = (Date) (rentalService.getById(dropOffCarRequest.getRentalId()).getRentDate());
         int totalRentDay = calculateDifferenceBetweenDays(dropOffCarRequest.getReturnDate(), rentDateForInvoice);
-        return totalRentDay;
+        if (totalRentDay == 0){ // bir günden az kullansa bari bir günlük ücret.
+            totalRentDay = 1;
+        }
+        return  totalRentDay;
     }
 
     private Result ifExistRentalIdOnInvoice(int rentalId) {
-        var result = this.invoiceDao.countByRental_RentalId(rentalId);
+        Integer result = this.invoiceDao.countByRental_RentalId(rentalId);
         if (result > 0) {
             return new ErrorResult("Bu kiralamaya ait zaten bir fatura mevcut.Yenisini ekleyemezsiniz.Lütfen mevcut fatura üzerinde işlem yapınız.");
         }

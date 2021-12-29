@@ -50,7 +50,7 @@ public class ImageManager implements ImageService {
     @Override
     public Result add(CreateImageRequest createImageRequest) throws IOException {
 
-        var result = BusinnessRules.run(checkCarImagesCount(createImageRequest.getCarId(), 5),
+        Result result = BusinnessRules.run(checkCarImagesCount(createImageRequest.getCarId(), 5),
                 this.fileHelper.checkImageType(createImageRequest.getFile()),
                 checkIfCarIsNotExistsInGallery(createImageRequest.getCarId()));
 
@@ -59,19 +59,14 @@ public class ImageManager implements ImageService {
         }
 
         Date dateNow = new java.sql.Date(new java.util.Date().getTime()); // Anlık zamanı alıp bir değişkene atıyor.
-
         Car car = modelMapperService.forRequest().map(createImageRequest, Car.class);
-
         Image image = new Image();
         image.setImageUrl(
                 this.fileHelper.uploadImage(createImageRequest.getCarId(), createImageRequest.getFile()).getMessage());
 
         image.setDate(dateNow);
-
         image.setCar(car);
-
         this.imageDao.save(image);
-
         return new SuccesResult("Car Görseli Eklendi");
     }
 
@@ -79,7 +74,7 @@ public class ImageManager implements ImageService {
     public Result update(UpdateImageRequest updateImageRequest) throws IOException {
         Image image = this.imageDao.getById(updateImageRequest.getImageId());
 
-        var result = BusinnessRules.run(checkCarImagesCount(image.getCar().getCarId(), 6),
+        Result result = BusinnessRules.run(checkCarImagesCount(image.getCar().getCarId(), 6),
                 this.fileHelper.checkImageType(updateImageRequest.getFile()),
                 checkIfImageExists(updateImageRequest.getImageId()));
 

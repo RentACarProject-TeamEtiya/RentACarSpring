@@ -58,15 +58,21 @@ public class WordManager implements WordService {
         return new SuccesResult();
     }
     @Override
-    public Result checkWordExists(int wordId){
+    public Result checkWordIdExists(int wordId){
         if (this.wordDao.existsById(wordId)) {
             return new SuccesResult();
         }
         return new ErrorResult("hata");
     }
 
-
-
+    @Override
+    public Result checkKeyExists(String key){
+        Word word=this.wordDao.getByKey(key);
+        if (word!=null){
+            return new SuccesResult();
+        }
+        return new ErrorResult("Hata");
+    }
 }
 
 

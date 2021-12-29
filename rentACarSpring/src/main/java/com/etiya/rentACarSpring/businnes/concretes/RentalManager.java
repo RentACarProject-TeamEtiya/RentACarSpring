@@ -94,30 +94,25 @@ public class RentalManager implements RentalService {
     public Result dropOffCar(DropOffCarRequest dropOffCarRequest) {
         Rental result = this.rentalDao.getByRentalId(dropOffCarRequest.getRentalId());
         Rental rental = modelMapperService.forRequest().map(dropOffCarRequest, Rental.class);
-        var car = this.carService.getById(rental.getCar().getCarId()).getData();
+        Car car = this.carService.getById(rental.getCar().getCarId()).getData();
 
         Result rules = BusinnessRules.run(checkCreditCardBalance(dropOffCarRequest,
                         dropOffCarRequest.getCreditCardRentalRequest()),
                 checkReturnDate(dropOffCarRequest.getRentalId()),
                 creditcardService.checkIfCreditCardCvvFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCvv()),
                 creditcardService.checkIfCreditCardFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCardNumber()),
-                checkDate(result.getRentDate(), dropOffCarRequest.getReturnDate()),
-                checkKilometer(Integer.parseInt(car.getKilometer()),dropOffCarRequest.getReturnKilometer())
+                checkDifferenceBetweenDates(result.getRentDate(), dropOffCarRequest.getReturnDate()),
+                checkDifferenceBetweenKilometers(Integer.parseInt(car.getKilometer()),dropOffCarRequest.getReturnKilometer())
         );
-
         if (rules != null) {
             return rules;
         }
-
 
         rental.setRentalId(result.getRentalId());
         rental.setRentDate(result.getRentDate());
         rental.setTakeCity(result.getTakeCity());
         rental.setUser(result.getUser());
         rental.setCar(result.getCar());
-
-
-
 
         car.setKilometer(rental.getReturnKilometer());
         car.setCity(rental.getReturnCity());
@@ -180,7 +175,7 @@ public class RentalManager implements RentalService {
     }
 
     private Result checkReturnDate(int rentalId) {
-        var result = this.rentalDao.getByRentalId(rentalId);
+        Rental result = this.rentalDao.getByRentalId(rentalId);
         if ((result.getReturnDate() != null)) {
             return new ErrorResult("Araba zaten geri dönmüş durumda.");
         }
@@ -221,17 +216,17 @@ public class RentalManager implements RentalService {
         return new SuccesResult();
     }
 
-    private Result checkDate(Date rentalDate, Date returnDate){
+    private Result checkDifferenceBetweenDates(Date rentalDate, Date returnDate){
         if (rentalDate.compareTo(returnDate)<0){
             return new SuccesResult();
         }
         return new ErrorResult("Kiraya yollama tarihi dönüş tarihinden önceki bir tarih olamaz.");
     }
 
-    private  Result checkKilometer(int Kilometer,int returnKilometer){
+    private  Result checkDifferenceBetweenKilometers(int Kilometer,int returnKilometer){
         if (Kilometer<returnKilometer){
             return new SuccesResult();
         }
-        return new ErrorResult("Geri Dönüş Kilometresi İlk kilometreden kücük olamaz");
+        return new ErrorResult("Geri Dönüş Kilometresi İlk kilometreden kücük veya eşit olamaz");
     }
 }
