@@ -50,7 +50,8 @@ public class RentalAdditionalServiceManager implements RentalAdditionalServiceSe
     public Result add(CreateRentalAdditionalServiceRequest createRentalAdditionalServiceRequest) {
         Result result = BusinnessRules.run(
                 rentalService.checkIfRentalExists(createRentalAdditionalServiceRequest.getRentalId()),
-                additionalServiceService.checkIfAdditionalServicexists(createRentalAdditionalServiceRequest.getAdditionalServiceId())
+                additionalServiceService.checkIfAdditionalServicexists(createRentalAdditionalServiceRequest.getAdditionalServiceId()),
+                rentalService.checkReturnDate(createRentalAdditionalServiceRequest.getRentalId())
         );
         if (result != null) {
             return result;
@@ -65,7 +66,8 @@ public class RentalAdditionalServiceManager implements RentalAdditionalServiceSe
     public Result update(UpdateRentalAdditionalServiceRequest updateRentalAdditionalServiceRequest) {
         Result result = BusinnessRules.run(checkIfRentalAdditionalExists(updateRentalAdditionalServiceRequest.getRentalAdditionalServiceId()),
                 rentalService.checkIfRentalExists(updateRentalAdditionalServiceRequest.getRentalId()),
-                additionalServiceService.checkIfAdditionalServicexists(updateRentalAdditionalServiceRequest.getAdditionalServiceId())
+                additionalServiceService.checkIfAdditionalServicexists(updateRentalAdditionalServiceRequest.getAdditionalServiceId()),
+                rentalService.checkReturnDate(updateRentalAdditionalServiceRequest.getRentalId())
 
                 );
         if (result != null) {

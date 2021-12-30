@@ -87,7 +87,7 @@ public class RentalManager implements RentalService {
 
         Rental rental = modelMapperService.forRequest().map(createRentalRequest, Rental.class);
         this.rentalDao.save(rental);
-        return new SuccesResult(Messages.succesRental);
+        return new SuccesResult("");
     }
 
     @Override
@@ -132,7 +132,7 @@ public class RentalManager implements RentalService {
         }
 
         this.rentalDao.deleteById(deleteRentalRequest.getRentalId());
-        return new SuccesResult(Messages.deletedRental);
+        return new SuccesResult("");
     }
 
     @Override
@@ -174,10 +174,10 @@ public class RentalManager implements RentalService {
         return new SuccesResult();
     }
 
-    private Result checkReturnDate(int rentalId) {
+    public Result checkReturnDate(int rentalId) {
         Rental result = this.rentalDao.getByRentalId(rentalId);
         if ((result.getReturnDate() != null)) {
-            return new ErrorResult("Araba zaten geri dönmüş durumda.");
+            return new ErrorResult("Kiralama tamamlanmış.");
         }
         return new SuccesResult();
     }
@@ -229,4 +229,5 @@ public class RentalManager implements RentalService {
         }
         return new ErrorResult("Geri Dönüş Kilometresi İlk kilometreden kücük veya eşit olamaz");
     }
+
 }

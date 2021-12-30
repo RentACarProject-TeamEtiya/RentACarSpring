@@ -51,7 +51,7 @@ public class CityManager implements CityService {
 
         City city = modelMapperService.forRequest().map(createCityRequest, City.class);
         this.cityDao.save(city);
-        return new SuccesResult(Messages.addedCity);
+        return new SuccesResult("Messages.addedCity");
     }
 
     @Override
@@ -63,7 +63,7 @@ public class CityManager implements CityService {
         }
         City city = modelMapperService.forRequest().map(updateCityRequest, City.class);
         this.cityDao.save(city);
-        return new SuccesResult(Messages.updatedCity);
+        return new SuccesResult("Messages.updatedCity");
     }
 
     @Override
@@ -74,7 +74,7 @@ public class CityManager implements CityService {
             return result;
         }
         this.cityDao.deleteById(deleteCityRequest.getCityId());
-        return new SuccesResult(Messages.deletedCity);
+        return new SuccesResult("Messages.deletedCity");
     }
 
     @Override
