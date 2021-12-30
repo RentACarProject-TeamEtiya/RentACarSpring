@@ -1,10 +1,13 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
+import com.etiya.rentACarSpring.businnes.abstracts.message.LanguageWordService;
+import com.etiya.rentACarSpring.businnes.constants.Messages;
 import com.etiya.rentACarSpring.businnes.dtos.CorparateCustomerSearchListDto;
 import com.etiya.rentACarSpring.core.utilities.adapter.findexScoreServiceAdapter.findexScoreService;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.results.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.etiya.rentACarSpring.businnes.abstracts.CorparateCustomerService;
@@ -24,14 +27,18 @@ public class CorparateCustomerManager implements CorparateCustomerService {
     private CorparateCustomerDao corparateCustomerDao;
     private ModelMapperService modelMapperService;
     private findexScoreService findexScoreService;
+    private Environment environment;
+    private LanguageWordService languageWordService;
 
     @Autowired
     public CorparateCustomerManager(CorparateCustomerDao corparateCustomerDao, ModelMapperService modelMapperService
-                    ,findexScoreService findexScoreService) {
+                    ,findexScoreService findexScoreService, Environment environment, LanguageWordService languageWordService) {
         super();
         this.corparateCustomerDao = corparateCustomerDao;
         this.modelMapperService = modelMapperService;
         this.findexScoreService =findexScoreService;
+        this.environment = environment;
+        this.languageWordService = languageWordService;
     }
 
     @Override
@@ -41,7 +48,7 @@ public class CorparateCustomerManager implements CorparateCustomerService {
                 .map(corparateCustomer -> modelMapperService.forDto().map(corparateCustomer, CorparateCustomerSearchListDto.class))
                 .collect(Collectors.toList());
 
-        return new SuccesDataResult<List<CorparateCustomerSearchListDto>>(response);
+        return new SuccesDataResult<List<CorparateCustomerSearchListDto>>(response, languageWordService.getByLanguageAndKeyId(Messages.CorporateCustomerListed,Integer.parseInt(environment.getProperty("language"))));
     }
 
     @Override
@@ -54,7 +61,7 @@ public class CorparateCustomerManager implements CorparateCustomerService {
         CorparateCustomer corparateCustomer = modelMapperService.forRequest().map(createCorparateRequest, CorparateCustomer.class);
         corparateCustomer.setFindexScore(findexScoreService.getIndividualFindexScore(corparateCustomer.getTaxNumber()));
         this.corparateCustomerDao.save(corparateCustomer);
-        return new SuccesResult("Ekleme İslemi Basarili");
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CorporateCustomerAdded,Integer.parseInt(environment.getProperty("language"))));
     }
 
     @Override
@@ -67,19 +74,19 @@ public class CorparateCustomerManager implements CorparateCustomerService {
         CorparateCustomer corparateCustomer = modelMapperService.forRequest().map(updateCorparateRequest, CorparateCustomer.class);
         corparateCustomer.setFindexScore(findexScoreService.getIndividualFindexScore(corparateCustomer.getTaxNumber()));
         this.corparateCustomerDao.save(corparateCustomer);
-        return new SuccesResult("Güncelleme İşlemi Başarılı");
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CorporateCustomerUpdated,Integer.parseInt(environment.getProperty("language"))));
     }
 
     @Override
     public Result delete(DeleteCorparateRequest deleteCorparateRequest) {
         this.corparateCustomerDao.deleteById(deleteCorparateRequest.getCorparateCustomerId());
-        return new SuccesResult("Silme İşlemi Başarılı");
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CorporateCustomerDeleted,Integer.parseInt(environment.getProperty("language"))));
     }
 
     private Result checkIfTaxNumberExists(String taxNumber) {
 
         if (this.corparateCustomerDao.existsByTaxNumber(taxNumber))
-            return new ErrorResult("Vergi numarası sistemde kayıtlıdır.");
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.TaxNumberAlreadyExist,Integer.parseInt(environment.getProperty("language"))));
 
         return new SuccesResult();
     }

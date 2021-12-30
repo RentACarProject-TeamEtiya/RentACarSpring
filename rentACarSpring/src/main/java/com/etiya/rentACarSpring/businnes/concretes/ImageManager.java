@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.etiya.rentACarSpring.businnes.abstracts.CarService;
+import com.etiya.rentACarSpring.businnes.abstracts.message.LanguageWordService;
+import com.etiya.rentACarSpring.businnes.constants.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.etiya.rentACarSpring.businnes.abstracts.ImageService;
@@ -37,14 +40,19 @@ public class ImageManager implements ImageService {
     private FileHelper fileHelper;
     private ModelMapperService modelMapperService;
     private CarService carService;
+    private Environment environment;
+    private LanguageWordService languageWordService;
 
     @Autowired
-    public ImageManager(ImageDao imageDao, FileHelper fileHelper, ModelMapperService modelMapperService, CarService carService) {
+    public ImageManager(ImageDao imageDao, FileHelper fileHelper, ModelMapperService modelMapperService, CarService carService, Environment environment,
+                        LanguageWordService languageWordService) {
         super();
         this.imageDao = imageDao;
         this.fileHelper = fileHelper;
         this.modelMapperService = modelMapperService;
         this.carService = carService;
+        this.environment = environment;
+        this.languageWordService = languageWordService;
     }
 
     @Override
@@ -67,7 +75,7 @@ public class ImageManager implements ImageService {
         image.setDate(dateNow);
         image.setCar(car);
         this.imageDao.save(image);
-        return new SuccesResult("Car Görseli Eklendi");
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarImageUploaded,Integer.parseInt(environment.getProperty("language"))));
     }
 
     @Override
@@ -89,7 +97,18 @@ public class ImageManager implements ImageService {
 
         this.imageDao.save(image);
 
-        return new SuccesResult("güncellendi");
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarImageUpdated,Integer.parseInt(environment.getProperty("language"))));
+    }
+
+    @Override
+    public Result delete(DeleteImageRequest deleteImageRequest) {
+        Image image = this.imageDao.getById(deleteImageRequest.getImageId());
+
+        this.imageDao.delete(image);
+
+        this.fileHelper.deleteImage(image.getImageUrl());
+
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarImageDeleted,Integer.parseInt(environment.getProperty("language"))));
     }
 
     @Override
@@ -100,12 +119,12 @@ public class ImageManager implements ImageService {
                 .map(carImage -> modelMapperService.forDto().map(carImage, ImageSearchListDto.class))
                 .collect(Collectors.toList());
 
-        return new SuccesDataResult<List<ImageSearchListDto>>(imageSearchListDto);
+        return new SuccesDataResult<List<ImageSearchListDto>>(imageSearchListDto, languageWordService.getByLanguageAndKeyId(Messages.ImageByCarIdListed,Integer.parseInt(environment.getProperty("language"))));
     }
 
     private Result checkCarImagesCount(int CarId, int limit) {
         if (this.imageDao.countByCar_CarId(CarId) >= limit) {
-            return new ErrorResult("Hata");
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CarImageCountLimitExceed,Integer.parseInt(environment.getProperty("language"))));
         }
         return new SuccesResult();
     }
@@ -126,16 +145,6 @@ public class ImageManager implements ImageService {
 
     }
 
-    @Override
-    public Result delete(DeleteImageRequest deleteImageRequest) {
-        Image image = this.imageDao.getById(deleteImageRequest.getImageId());
-
-        this.imageDao.delete(image);
-
-        this.fileHelper.deleteImage(image.getImageUrl());
-
-        return new SuccesResult("Resim Silindi");
-    }
 
     @Override
     public DataResult<List<ImageSearchListDto>> getAll() {
@@ -145,13 +154,13 @@ public class ImageManager implements ImageService {
                 .map(image -> modelMapperService.forDto().map(image, ImageSearchListDto.class))
                 .collect(Collectors.toList());
 
-        return new SuccesDataResult<List<ImageSearchListDto>>(response);
+        return new SuccesDataResult<List<ImageSearchListDto>>(response, languageWordService.getByLanguageAndKeyId(Messages.CarImageListed,Integer.parseInt(environment.getProperty("language"))));
 
     }
 
     private Result checkIfImageExists(int imageId) {
         if (!this.imageDao.existsById(imageId)) {
-            return new ErrorResult("Böyle bir resim veritabanında bulunmamaktadır.");
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CarImageNotFound,Integer.parseInt(environment.getProperty("language"))));
         }
         return new SuccesResult();
 
@@ -159,7 +168,7 @@ public class ImageManager implements ImageService {
 
     private Result checkIfCarIsNotExistsInGallery(int carId) {
         if (!this.carService.checkCarExistsInGallery(carId).isSuccess()) {
-            return new ErrorResult("Böyle bir araba galeride bulunmamaktadır.");
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CarNotFound,Integer.parseInt(environment.getProperty("language"))));
         }
         return new SuccesResult();
     }

@@ -6,11 +6,13 @@ import java.util.stream.Collectors;
 
 import ch.qos.logback.core.CoreConstants;
 import com.etiya.rentACarSpring.businnes.abstracts.*;
+import com.etiya.rentACarSpring.businnes.abstracts.message.LanguageWordService;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.DropOffCarRequest;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.results.*;
 import com.etiya.rentACarSpring.entities.Rental;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.etiya.rentACarSpring.businnes.constants.Messages;
@@ -31,10 +33,13 @@ public class InvoiceManager implements InvoiceService {
     private RentalService rentalService;
     private CarService carService;
     private CityService cityService;
+    private Environment environment;
+    private LanguageWordService languageWordService;
 
     @Autowired
     public InvoiceManager(InvoiceDao invoiceDao, ModelMapperService modelMapperService
-            , UserService userService, RentalService rentalService, CarService carService, CityService cityService) {
+            , UserService userService, RentalService rentalService, CarService carService, CityService cityService, Environment environment,
+                          LanguageWordService languageWordService) {
         super();
         this.invoiceDao = invoiceDao;
         this.modelMapperService = modelMapperService;
@@ -42,6 +47,8 @@ public class InvoiceManager implements InvoiceService {
         this.rentalService = rentalService;
         this.carService = carService;
         this.cityService = cityService;
+        this.environment = environment;
+        this.languageWordService = languageWordService;
     }
 
     @Override
@@ -51,7 +58,7 @@ public class InvoiceManager implements InvoiceService {
                 .map(invoice -> modelMapperService.forDto().map(invoice, InvoiceSearchListDto.class))
                 .collect(Collectors.toList());
 
-        return new SuccesDataResult<List<InvoiceSearchListDto>>(response);
+        return new SuccesDataResult<List<InvoiceSearchListDto>>(response, languageWordService.getByLanguageAndKeyId(Messages.InvoiceListed,Integer.parseInt(environment.getProperty("language"))));
     }
 
     @Override
@@ -69,26 +76,21 @@ public class InvoiceManager implements InvoiceService {
         invoice.setTotalPrice(rentOfTotalPrice(dropOffCarRequest));
         invoice.setRental(rentalService.getById(dropOffCarRequest.getRentalId()));
         this.invoiceDao.save(invoice);
-        return new SuccesResult("");
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.InvoiceAdded,Integer.parseInt(environment.getProperty("language"))));
     }
 
     @Override
     public Result update(UpdateInvoiceRequest updateInvoiceRequest) {
-        Result rules = BusinnessRules.run(ifExistRentalIdOnInvoice(updateInvoiceRequest.getRentalId())
-        );
 
-        if (rules != null) {
-            return rules;
-        }
         Invoice invoice = modelMapperService.forRequest().map(updateInvoiceRequest, Invoice.class);
         this.invoiceDao.save(invoice);
-        return new SuccesResult("Messages.updateInvoice");
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.InvoiceUpdated,Integer.parseInt(environment.getProperty("language"))));
     }
 
     @Override
     public Result delete(DeleteInvoiceRequest deleteInvoiceRequest) {
         this.invoiceDao.deleteById(deleteInvoiceRequest.getInvoiceId());
-        return new SuccesResult("");
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.InvoiceDeleted,Integer.parseInt(environment.getProperty("language"))));
 
     }
 
@@ -102,7 +104,7 @@ public class InvoiceManager implements InvoiceService {
                 .map(invoice -> modelMapperService.forDto().map(invoice, InvoiceSearchListDto.class))
                 .collect(Collectors.toList());
 
-        return new SuccesDataResult<List<InvoiceSearchListDto>>(response);
+        return new SuccesDataResult<List<InvoiceSearchListDto>>(response, languageWordService.getByLanguageAndKeyId(Messages.InvoiceByDateListed,Integer.parseInt(environment.getProperty("language"))));
     }
 
     private int calculateDifferenceBetweenDays(Date maxDate, Date minDate) {
@@ -148,7 +150,7 @@ public class InvoiceManager implements InvoiceService {
     private Result ifExistRentalIdOnInvoice(int rentalId) {
         Integer result = this.invoiceDao.countByRental_RentalId(rentalId);
         if (result > 0) {
-            return new ErrorResult("Bu kiralamaya ait zaten bir fatura mevcut.Yenisini ekleyemezsiniz.Lütfen mevcut fatura üzerinde işlem yapınız.");
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.InvoiceAlreadyExistForThisRent,Integer.parseInt(environment.getProperty("language"))));
         }
         return new SuccesResult();
     }

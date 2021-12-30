@@ -4,11 +4,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.etiya.rentACarSpring.businnes.abstracts.message.LanguageWordService;
 import com.etiya.rentACarSpring.businnes.request.CreditCardRentalRequest;
 import com.etiya.rentACarSpring.businnes.request.PosServiceRequest;
 import com.etiya.rentACarSpring.core.utilities.adapter.posServiceAdapter.posSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.etiya.rentACarSpring.businnes.abstracts.CarMaintenanceService;
@@ -44,11 +46,14 @@ public class RentalManager implements RentalService {
     private InvoiceService invoiceService;
     private CarMaintenanceService carMaintenanceService;
     private posSystemService posSystemService;
+    private Environment environment;
+    private LanguageWordService languageWordService;
 
     @Autowired
     public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CarService carService,
                          UserService userService, CreditCardService creditcardService, @Lazy InvoiceService invoiceService,
-                         @Lazy CarMaintenanceService carMaintenanceService, posSystemService posSystemService) {
+                         @Lazy CarMaintenanceService carMaintenanceService, posSystemService posSystemService, Environment environment,
+                         LanguageWordService languageWordService) {
 
         super();
         this.rentalDao = rentalDao;
@@ -59,6 +64,8 @@ public class RentalManager implements RentalService {
         this.invoiceService = invoiceService;
         this.carMaintenanceService = carMaintenanceService;
         this.posSystemService = posSystemService;
+        this.environment = environment;
+        this.languageWordService = languageWordService;
 
     }
 
@@ -69,7 +76,7 @@ public class RentalManager implements RentalService {
                 .map(car -> modelMapperService.forDto().map(car, RentalSearchListDto.class))
                 .collect(Collectors.toList());
 
-        return new SuccesDataResult<List<RentalSearchListDto>>(response);
+        return new SuccesDataResult<List<RentalSearchListDto>>(response, languageWordService.getByLanguageAndKeyId(Messages.RentalListed,Integer.parseInt(environment.getProperty("language"))));
     }
 
     @Override
@@ -87,22 +94,22 @@ public class RentalManager implements RentalService {
 
         Rental rental = modelMapperService.forRequest().map(createRentalRequest, Rental.class);
         this.rentalDao.save(rental);
-        return new SuccesResult("");
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.RentalAdded,Integer.parseInt(environment.getProperty("language"))));
     }
 
     @Override
     public Result dropOffCar(DropOffCarRequest dropOffCarRequest) {
         Rental result = this.rentalDao.getByRentalId(dropOffCarRequest.getRentalId());
         Rental rental = modelMapperService.forRequest().map(dropOffCarRequest, Rental.class);
-        Car car = this.carService.getById(rental.getCar().getCarId()).getData();
+
 
         Result rules = BusinnessRules.run(checkCreditCardBalance(dropOffCarRequest,
                         dropOffCarRequest.getCreditCardRentalRequest()),
                 checkReturnDate(dropOffCarRequest.getRentalId()),
                 creditcardService.checkIfCreditCardCvvFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCvv()),
                 creditcardService.checkIfCreditCardFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCardNumber()),
-                checkDifferenceBetweenDates(result.getRentDate(), dropOffCarRequest.getReturnDate()),
-                checkDifferenceBetweenKilometers(Integer.parseInt(car.getKilometer()),dropOffCarRequest.getReturnKilometer())
+                checkDifferenceBetweenDates(result.getRentDate(), dropOffCarRequest.getReturnDate())
+
         );
         if (rules != null) {
             return rules;
@@ -114,12 +121,13 @@ public class RentalManager implements RentalService {
         rental.setUser(result.getUser());
         rental.setCar(result.getCar());
 
+        Car car = this.carService.getById(rental.getCar().getCarId()).getData();
         car.setKilometer(rental.getReturnKilometer());
         car.setCity(rental.getReturnCity());
 
         this.rentalDao.save(rental);
         this.invoiceService.add(dropOffCarRequest);
-        return new SuccesResult("Araç kiradan döndü ve fatura oluşturuldu.");
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarReturnedRental,Integer.parseInt(environment.getProperty("language"))));
     }
 
     @Override
@@ -132,7 +140,7 @@ public class RentalManager implements RentalService {
         }
 
         this.rentalDao.deleteById(deleteRentalRequest.getRentalId());
-        return new SuccesResult("");
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.RentalDeleted,Integer.parseInt(environment.getProperty("language"))));
     }
 
     @Override
@@ -145,7 +153,7 @@ public class RentalManager implements RentalService {
         if (result != null) {
             for (Rental rentals : this.rentalDao.getByCar_CarId(carId)) {
                 if (rentals.getReturnDate() == null) {
-                    return new ErrorResult("Araç bir başkası tarafından kiralanmıştır.");
+                    return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CarIsOnRent,Integer.parseInt(environment.getProperty("language"))));
                 }
             }
         }
@@ -169,7 +177,7 @@ public class RentalManager implements RentalService {
     private Result checkUserAndCarFindexScore(int userId, int carId) {
         if (this.carService.getById(carId).getData().getFindexScore() > this.userService.getById(userId).getData()
                 .getFindexScore()) {
-            return new ErrorResult("Findex Puanı yeterli değildir.");
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.FindexScoreNotEnough,Integer.parseInt(environment.getProperty("language"))));
         }
         return new SuccesResult();
     }
@@ -177,7 +185,7 @@ public class RentalManager implements RentalService {
     public Result checkReturnDate(int rentalId) {
         Rental result = this.rentalDao.getByRentalId(rentalId);
         if ((result.getReturnDate() != null)) {
-            return new ErrorResult("Kiralama tamamlanmış.araç geri dönmüş");
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentCompleted,Integer.parseInt(environment.getProperty("language"))));
         }
         return new SuccesResult();
     }
@@ -189,21 +197,21 @@ public class RentalManager implements RentalService {
         posServiceRequest.setCvv(creditCardRentalRequest.getCvv());
         posServiceRequest.setCardNumber(creditCardRentalRequest.getCardNumber());
         if (!this.posSystemService.checkPayment(posServiceRequest)) {
-            return new ErrorResult("İşlem gerçekleştirilemedi.");
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CreditCardBalanceNotEnough,Integer.parseInt(environment.getProperty("language"))));
         }
         return new SuccesResult();
     }
 
     private Result checkIfCarIsNotExistsInGallery(int carId) {
         if (!this.carService.checkCarExistsInGallery(carId).isSuccess()) {
-            return new ErrorResult("Böyle bir araba galeride bulunmamaktadır.");
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CarNotFound,Integer.parseInt(environment.getProperty("language"))));
         }
         return new SuccesResult();
     }
 
     private Result checkIfUserRegisteredSystem(int userId) {
         if (!this.userService.getById(userId).isSuccess()) {
-            return new ErrorResult("Böyle bir kullanıcı sisteme kayıtlı değil, öncelikle kayıt olunuz.");
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.UserNotExist,Integer.parseInt(environment.getProperty("language"))));
         }
         return new SuccesResult();
     }
@@ -211,23 +219,23 @@ public class RentalManager implements RentalService {
     @Override
     public Result checkIfRentalExists(int rentalId) {
         if (!this.rentalDao.existsById(rentalId)) {
-            return new ErrorResult("rentalId mevcut değil");
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentalNotFound,Integer.parseInt(environment.getProperty("language"))));
         }
         return new SuccesResult();
     }
 
-    private Result checkDifferenceBetweenDates(Date rentalDate, Date returnDate){
-        if (rentalDate.compareTo(returnDate)<0){
+    private Result checkDifferenceBetweenDates(Date rentalDate, Date returnDate) {
+        if (rentalDate.compareTo(returnDate) < 0) {
             return new SuccesResult();
         }
-        return new ErrorResult("Kiraya yollama tarihi dönüş tarihinden önceki bir tarih olamaz.");
+        return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.InvalidReturnKilometer,Integer.parseInt(environment.getProperty("language"))));
     }
 
-    private  Result checkDifferenceBetweenKilometers(int Kilometer,int returnKilometer){
-        if (Kilometer<returnKilometer){
+    private Result checkDifferenceBetweenKilometers(int Kilometer, int returnKilometer) {
+        if (Kilometer < returnKilometer) {
             return new SuccesResult();
         }
-        return new ErrorResult("Geri Dönüş Kilometresi İlk kilometreden kücük veya eşit olamaz");
+        return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.InvalidReturnRentDate,Integer.parseInt(environment.getProperty("language"))));
     }
 
 }
