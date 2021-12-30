@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="639878a2-ff84-47e6-8a59-fb3db46e61aa" name="Changes" comment="camelCase settings added">
+    <list default="true" id="639878a2-ff84-47e6-8a59-fb3db46e61aa" name="Changes" comment="code refactor added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/RentACarSpringApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/RentACarSpringApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/ColorManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/ColorManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/RentalManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/RentalManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/RentalRequest/CreateRentalRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/RentalRequest/CreateRentalRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/test/system.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/test/system.proporties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/constants/Messages.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/constants/Messages.java" afterDir="false" />
     </list>
     <list id="16e890e8-075d-4888-9158-bd12d400c1cf" name="Changes by anil.arslan" comment="" />
     <list id="a8ba2bd2-329f-475a-aa35-7fbf1e751a0c" name="Changes by kubra.bayindir" comment="" />
@@ -369,7 +363,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639683507510</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="code refactor added">
+      <created>1640857300743</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1640857300743</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -397,6 +398,7 @@
     <MESSAGE value="new operations added" />
     <MESSAGE value="Code Review Completed" />
     <MESSAGE value="camelCase settings added" />
-    <option name="LAST_COMMIT_MESSAGE" value="camelCase settings added" />
+    <MESSAGE value="code refactor added" />
+    <option name="LAST_COMMIT_MESSAGE" value="code refactor added" />
   </component>
 </project>
