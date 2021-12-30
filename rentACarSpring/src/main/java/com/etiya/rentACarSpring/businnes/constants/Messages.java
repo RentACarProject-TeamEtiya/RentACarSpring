@@ -29,6 +29,7 @@ public class Messages {
 	public static String ColorDeleted="color_deleted";
 	public static String ColorListed="color_listed";
 	public static String ColorNotFound="color_not_found";
+	public static String ColorNameDuplicated="color_name_duplicated";
 
 	public static String CityAdded="city_added";
 	public static String CityUpdated="city_updated";

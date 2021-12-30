@@ -113,7 +113,7 @@ public class AuthManager implements AuthService {
         return new SuccesResult();
     }
 
-    private Result checkEmailIfExists(String email) {
+    public Result checkEmailIfExists(String email) {
         if (!this.userService.existByEmail(email).isSuccess()) {
             return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.MailAlreadyExists,Integer.parseInt(environment.getProperty("language"))));
         }

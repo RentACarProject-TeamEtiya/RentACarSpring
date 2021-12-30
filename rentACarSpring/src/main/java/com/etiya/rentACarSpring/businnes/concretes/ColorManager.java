@@ -4,6 +4,7 @@ import com.etiya.rentACarSpring.businnes.abstracts.message.LanguageWordService;
 import com.etiya.rentACarSpring.businnes.dtos.ColorSearchListDto;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.results.*;
+import com.etiya.rentACarSpring.entities.Brand;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.core.env.Environment;
@@ -52,6 +53,11 @@ public class ColorManager implements ColorService {
 
     @Override
     public Result save(CreateColorRequest createColorRequest) {
+        Result result = BusinnessRules.run(checkColorNameDuplicated(createColorRequest.getColorName())
+                );
+        if (result != null) {
+            return result;
+        }
         Color color = modelMapperService.forRequest().map(createColorRequest, Color.class);
         this.colorDao.save(color);
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.ColorAdded,Integer.parseInt(environment.getProperty("language"))));
@@ -59,7 +65,9 @@ public class ColorManager implements ColorService {
 
     @Override
     public Result update(UpdateColorRequest updateColorRequest) {
-        Result result = BusinnessRules.run(checkIfColorExists(updateColorRequest.getColorId())
+        Result result = BusinnessRules.run(checkIfColorExists(updateColorRequest.getColorId()),
+                checkColorNameDuplicated(updateColorRequest.getColorName())
+
         );
         if (result != null) {
             return result;
@@ -84,6 +92,14 @@ public class ColorManager implements ColorService {
     public Result checkIfColorExists(int colorId) {
         if (!this.colorDao.existsById(colorId)) {
             return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.ColorNotFound,Integer.parseInt(environment.getProperty("language"))));
+        }
+        return new SuccesResult();
+    }
+
+    private Result checkColorNameDuplicated(String colorName) {
+        Color color = this.colorDao.getColorByColorName(colorName);
+        if (color != null) {
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.ColorNameDuplicated,Integer.parseInt(environment.getProperty("language"))));
         }
         return new SuccesResult();
     }
