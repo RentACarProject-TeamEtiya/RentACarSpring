@@ -78,13 +78,13 @@ public class CarMaintenanceManager implements CarMaintenanceService {
         updatedCarMaintenance.setCar(carMaintenance.getCar());
         updatedCarMaintenance.setMaintananceDate(carMaintenance.getMaintananceDate());
         this.carMaintenanceDao.save(updatedCarMaintenance);
-        return new SuccesResult(Messages.updatedColor);
+        return new SuccesResult("Messages.updatedColor");
     }
 
     @Override
     public Result delete(DeleteCarMaintenanceRequest deleteCarMaintenanceRequest) {
         this.carMaintenanceDao.deleteById(deleteCarMaintenanceRequest.getCarMaintenanceId());
-        return new SuccesResult(Messages.deletedColor);
+        return new SuccesResult("Messages.deletedColor");
     }
 
     @Override

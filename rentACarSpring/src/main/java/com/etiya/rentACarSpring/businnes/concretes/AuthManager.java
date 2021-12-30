@@ -58,7 +58,7 @@ public class AuthManager implements AuthService {
         crateCreateIndividualCustomerRequest.setFindexScore(findexScoreService.getIndividualFindexScore(individualRegisterRequest.getIdentityNumber()));
         this.individualCustomerService.save(crateCreateIndividualCustomerRequest);
 
-        return new SuccesResult(Messages.individualRegister);
+        return new SuccesResult("Messages.individualRegister");
     }
 
     @Override
@@ -72,7 +72,7 @@ public class AuthManager implements AuthService {
                 CreateCorparateRequest.class);
         createCorparateRequest.setFindexScore(findexScoreService.getCorparateFindexScore(corparateRegisterRequest.getTaxNumber()));
         this.corparateCustomerService.add(createCorparateRequest);
-        return new SuccesResult(Messages.corparateRegister);
+        return new SuccesResult("Messages.corparateRegister");
     }
 
     @Override
@@ -83,13 +83,13 @@ public class AuthManager implements AuthService {
             return result;
         }
 
-        return new SuccesResult(Messages.login);
+        return new SuccesResult("Messages.login");
     }
 
     @Override
     public Result checkCustomerEmailIsTrue(LoginRequest loginRequest) {
         if (this.userService.existByEmail(loginRequest.getEmail()).isSuccess()) {
-            return new ErrorResult(Messages.mailDontFind);
+            return new ErrorResult("Messages.mailDontFind");
         }
         return new SuccesResult();
     }

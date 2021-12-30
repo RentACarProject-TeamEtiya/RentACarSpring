@@ -69,7 +69,7 @@ public class InvoiceManager implements InvoiceService {
         invoice.setTotalPrice(rentOfTotalPrice(dropOffCarRequest));
         invoice.setRental(rentalService.getById(dropOffCarRequest.getRentalId()));
         this.invoiceDao.save(invoice);
-        return new SuccesResult(Messages.addedInvoice);
+        return new SuccesResult("");
     }
 
     @Override
@@ -82,13 +82,13 @@ public class InvoiceManager implements InvoiceService {
         }
         Invoice invoice = modelMapperService.forRequest().map(updateInvoiceRequest, Invoice.class);
         this.invoiceDao.save(invoice);
-        return new SuccesResult(Messages.updateInvoice);
+        return new SuccesResult("Messages.updateInvoice");
     }
 
     @Override
     public Result delete(DeleteInvoiceRequest deleteInvoiceRequest) {
         this.invoiceDao.deleteById(deleteInvoiceRequest.getInvoiceId());
-        return new SuccesResult(Messages.deleteInvoice);
+        return new SuccesResult("");
 
     }
 
@@ -128,20 +128,21 @@ public class InvoiceManager implements InvoiceService {
     }
 
     public Integer rentOfTotalPrice(DropOffCarRequest dropOffCarRequest) {
-        int dailyPriceOfCar=this.rentalService.getDailyPriceOfRentedCar(dropOffCarRequest.getRentalId()).getData();
+        int dailyPriceOfCar = this.rentalService.getDailyPriceOfRentedCar(dropOffCarRequest.getRentalId()).getData();
         int priceOfDiffrentCity = ifCarReturnedToDifferentCity(dropOffCarRequest.getRentalId(), dropOffCarRequest.getReturnCityId()).getData();
         int addtionalServicePrice = rentalService.sumAdditionalServicePriceByRentalId(dropOffCarRequest.getRentalId()) * rentOfTotalRentDate(dropOffCarRequest);
         int totalPrice = (rentOfTotalRentDate(dropOffCarRequest) * dailyPriceOfCar) + priceOfDiffrentCity + addtionalServicePrice;
         return totalPrice;
 
     }
+
     private Integer rentOfTotalRentDate(DropOffCarRequest dropOffCarRequest) {
         Date rentDateForInvoice = (Date) (rentalService.getById(dropOffCarRequest.getRentalId()).getRentDate());
         int totalRentDay = calculateDifferenceBetweenDays(dropOffCarRequest.getReturnDate(), rentDateForInvoice);
-        if (totalRentDay == 0){ // bir günden az kullansa bari bir günlük ücret.
+        if (totalRentDay == 0) { // bir günden az kullansa bari bir günlük ücret.
             totalRentDay = 1;
         }
-        return  totalRentDay;
+        return totalRentDay;
     }
 
     private Result ifExistRentalIdOnInvoice(int rentalId) {
