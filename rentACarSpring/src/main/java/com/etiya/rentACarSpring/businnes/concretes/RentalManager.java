@@ -177,7 +177,7 @@ public class RentalManager implements RentalService {
     public Result checkReturnDate(int rentalId) {
         Rental result = this.rentalDao.getByRentalId(rentalId);
         if ((result.getReturnDate() != null)) {
-            return new ErrorResult("Kiralama tamamlanmış.");
+            return new ErrorResult("Kiralama tamamlanmış.araç geri dönmüş");
         }
         return new SuccesResult();
     }

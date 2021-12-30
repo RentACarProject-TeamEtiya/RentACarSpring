@@ -77,7 +77,7 @@ public class ColorManager implements ColorService {
     @Override
     public Result checkIfColorExists(int colorId) {
         if (!this.colorDao.existsById(colorId)) {
-            return new ErrorResult("colorıd mevcut değil");
+            return new ErrorResult("colorsdıd mevcut değil");
         }
         return new SuccesResult();
     }
