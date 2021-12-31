@@ -53,7 +53,7 @@ public class CorparateCustomerManager implements CorparateCustomerService {
                 .map(corparateCustomer -> modelMapperService.forDto().map(corparateCustomer, CorparateCustomerSearchListDto.class))
                 .collect(Collectors.toList());
 
-        return new SuccesDataResult<List<CorparateCustomerSearchListDto>>(response, languageWordService.getByLanguageAndKeyId(Messages.CorporateCustomerListed,Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesDataResult<List<CorparateCustomerSearchListDto>>(response, languageWordService.getByLanguageAndKeyId(Messages.CorporateCustomerListed));
     }
 
     @Override
@@ -69,7 +69,7 @@ public class CorparateCustomerManager implements CorparateCustomerService {
         CorparateCustomer corparateCustomer = modelMapperService.forRequest().map(createCorparateRequest, CorparateCustomer.class);
         corparateCustomer.setFindexScore(findexScoreService.getIndividualFindexScore(corparateCustomer.getTaxNumber()));
         this.corparateCustomerDao.save(corparateCustomer);
-        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CorporateCustomerAdded,Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CorporateCustomerAdded));
     }
 
     @Override
@@ -82,19 +82,19 @@ public class CorparateCustomerManager implements CorparateCustomerService {
         CorparateCustomer corparateCustomer = modelMapperService.forRequest().map(updateCorparateRequest, CorparateCustomer.class);
         corparateCustomer.setFindexScore(findexScoreService.getIndividualFindexScore(corparateCustomer.getTaxNumber()));
         this.corparateCustomerDao.save(corparateCustomer);
-        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CorporateCustomerUpdated,Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CorporateCustomerUpdated));
     }
 
     @Override
     public Result delete(DeleteCorparateRequest deleteCorparateRequest) {
         this.corparateCustomerDao.deleteById(deleteCorparateRequest.getCorparateCustomerId());
-        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CorporateCustomerDeleted,Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CorporateCustomerDeleted));
     }
 
     private Result checkIfTaxNumberExists(String taxNumber) {
 
         if (this.corparateCustomerDao.existsByTaxNumber(taxNumber)) {
-            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.TaxNumberAlreadyExist, Integer.parseInt(environment.getProperty("language"))));
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.TaxNumberAlreadyExist));
         }
         return new SuccesResult();
     }

@@ -42,14 +42,14 @@ public class LanguageManager implements LanguageService {
         List<LanguageSearchListDto> response = result.stream()
                 .map(language -> modelMapperService.forDto().map(language, LanguageSearchListDto.class)).collect(Collectors.toList());
 
-        return new SuccesDataResult<List<LanguageSearchListDto>>(response, languageWordService.getByLanguageAndKeyId(Messages.LanguageListed,Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesDataResult<List<LanguageSearchListDto>>(response, languageWordService.getByLanguageAndKeyId(Messages.LanguageListed));
     }
 
     @Override
     public Result save(CreateLanguageRequest createLanguageRequest) {
         Language language = modelMapperService.forRequest().map(createLanguageRequest, Language.class);
         this.languageDao.save(language);
-        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.LanguageAdded,Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.LanguageAdded));
 
     }
 
@@ -57,14 +57,14 @@ public class LanguageManager implements LanguageService {
     public Result update(UpdateLanguageRequest updateLanguageRequest) {
         Language language = modelMapperService.forRequest().map(updateLanguageRequest, Language.class);
         this.languageDao.save(language);
-        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.LanguageUpdated,Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.LanguageUpdated));
     }
 
     @Override
     public Result delete(DeleteLanguageRequest deleteLanguageRequest) {
 
         this.languageDao.deleteById(deleteLanguageRequest.getLanguageId());
-        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.LanguageDeleted,Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.LanguageDeleted));
     }
 
     public Result checkLanguageExists(int languageId) {
@@ -74,7 +74,7 @@ public class LanguageManager implements LanguageService {
             languageId=1;
             return new SuccesResult();
         } else {
-            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.LanguageNotFound,Integer.parseInt(environment.getProperty("language"))));
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.LanguageNotFound));
         }
     }
 

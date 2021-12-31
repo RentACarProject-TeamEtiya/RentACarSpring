@@ -54,7 +54,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
                         carMaintenance -> modelMapperService.forDto().map(carMaintenance, CarMaintenanceSearchListDto.class))
                 .collect(Collectors.toList());
 
-        return new SuccesDataResult<List<CarMaintenanceSearchListDto>>(response, languageWordService.getByLanguageAndKeyId(Messages.CarMaintenanceListed,Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesDataResult<List<CarMaintenanceSearchListDto>>(response, languageWordService.getByLanguageAndKeyId(Messages.CarMaintenanceListed));
     }
 
     @Override
@@ -68,7 +68,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
         CarMaintenance carMaintenance = modelMapperService.forRequest().map(createCarMaintenanceRequest,
                 CarMaintenance.class);
         this.carMaintenanceDao.save(carMaintenance);
-        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarMaintenanceAdded,Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarMaintenanceAdded));
     }
 
     @Override
@@ -84,13 +84,13 @@ public class CarMaintenanceManager implements CarMaintenanceService {
         updatedCarMaintenance.setCar(carMaintenance.getCar());
         updatedCarMaintenance.setMaintananceDate(carMaintenance.getMaintananceDate());
         this.carMaintenanceDao.save(updatedCarMaintenance);
-        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarMaintenanceUpdated,Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarMaintenanceUpdated));
     }
 
     @Override
     public Result delete(DeleteCarMaintenanceRequest deleteCarMaintenanceRequest) {
         this.carMaintenanceDao.deleteById(deleteCarMaintenanceRequest.getCarMaintenanceId());
-        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarMaintenanceDeleted,Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarMaintenanceDeleted));
     }
 
     @Override
@@ -104,7 +104,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
         if (result != null) {
             for (CarMaintenance carMaintenances : this.carMaintenanceDao.getByCar_CarId(carId)) {
                 if (carMaintenances.getReturnDate() == null) {
-                    return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CarIsAlreadyOnMaintenance,Integer.parseInt(environment.getProperty("language"))));
+                    return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CarIsAlreadyOnMaintenance));
                 }
             }
         }
@@ -114,7 +114,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
     private Result checkIfCarIsRentedNow(int carId) {
         Result isCarReturned = rentalService.checkCarRentalStatus(carId);
         if (!isCarReturned.isSuccess()) {
-            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CarIsOnRent,Integer.parseInt(environment.getProperty("language"))));
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CarIsOnRent));
         }
         return new SuccesResult();
     }
@@ -123,7 +123,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
         if (maintananceDate.compareTo(returnDate)<0){
             return new SuccesResult();
         }
-        return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.InvalidReturnMaintenanceDate,Integer.parseInt(environment.getProperty("language"))));
+        return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.InvalidReturnMaintenanceDate));
     }
 
 }

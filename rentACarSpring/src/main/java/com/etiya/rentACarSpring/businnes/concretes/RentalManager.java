@@ -1,6 +1,7 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
-import java.util.Date;
+//import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,7 +77,7 @@ public class RentalManager implements RentalService {
                 .map(car -> modelMapperService.forDto().map(car, RentalSearchListDto.class))
                 .collect(Collectors.toList());
 
-        return new SuccesDataResult<List<RentalSearchListDto>>(response, languageWordService.getByLanguageAndKeyId(Messages.RentalListed,Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesDataResult<List<RentalSearchListDto>>(response, languageWordService.getByLanguageAndKeyId(Messages.RentalListed));
     }
 
     @Override
@@ -94,7 +95,7 @@ public class RentalManager implements RentalService {
 
         Rental rental = modelMapperService.forRequest().map(createRentalRequest, Rental.class);
         this.rentalDao.save(rental);
-        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.RentalAdded,Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.RentalAdded));
     }
 
     @Override
@@ -126,7 +127,7 @@ public class RentalManager implements RentalService {
         car.setCity(rental.getReturnCity());
 
         this.rentalDao.save(rental);
-        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarReturnedRental,Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarReturnedRental));
     }
 
     @Override
@@ -139,7 +140,7 @@ public class RentalManager implements RentalService {
         }
 
         this.rentalDao.deleteById(deleteRentalRequest.getRentalId());
-        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.RentalDeleted,Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.RentalDeleted));
     }
 
     @Override
@@ -152,7 +153,7 @@ public class RentalManager implements RentalService {
         if (result != null) {
             for (Rental rentals : this.rentalDao.getByCar_CarId(carId)) {
                 if (rentals.getReturnDate() == null) {
-                    return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CarIsOnRent,Integer.parseInt(environment.getProperty("language"))));
+                    return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CarIsOnRent));
                 }
             }
         }
@@ -176,7 +177,7 @@ public class RentalManager implements RentalService {
     private Result checkUserAndCarFindexScore(int userId, int carId) {
         if (this.carService.getById(carId).getData().getFindexScore() > this.userService.getById(userId).getData()
                 .getFindexScore()) {
-            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.FindexScoreNotEnough,Integer.parseInt(environment.getProperty("language"))));
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.FindexScoreNotEnough));
         }
         return new SuccesResult();
     }
@@ -184,7 +185,7 @@ public class RentalManager implements RentalService {
     public Result checkReturnDate(int rentalId) {
         Rental result = this.rentalDao.getByRentalId(rentalId);
         if ((result.getReturnDate() != null)) {
-            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentCompleted,Integer.parseInt(environment.getProperty("language"))));
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentCompleted));
         }
         return new SuccesResult();
     }
@@ -192,25 +193,25 @@ public class RentalManager implements RentalService {
     private Result checkCreditCardBalance(DropOffCarRequest dropOffCarRequest, CreditCardRentalRequest creditCardRentalRequest) {
 
         PosServiceRequest posServiceRequest = new PosServiceRequest();
-        posServiceRequest.setPrice(invoiceService.rentOfTotalPrice(dropOffCarRequest));
+        posServiceRequest.setPrice(rentOfTotalPrice(dropOffCarRequest));
         posServiceRequest.setCvv(creditCardRentalRequest.getCvv());
         posServiceRequest.setCardNumber(creditCardRentalRequest.getCardNumber());
         if (!this.posSystemService.checkPayment(posServiceRequest)) {
-            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CreditCardBalanceNotEnough,Integer.parseInt(environment.getProperty("language"))));
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CreditCardBalanceNotEnough));
         }
         return new SuccesResult();
     }
 
     private Result checkIfCarIsNotExistsInGallery(int carId) {
         if (!this.carService.checkCarExistsInGallery(carId).isSuccess()) {
-            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CarNotFound,Integer.parseInt(environment.getProperty("language"))));
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CarNotFound));
         }
         return new SuccesResult();
     }
 
     private Result checkIfUserRegisteredSystem(int userId) {
         if (!this.userService.getById(userId).isSuccess()) {
-            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.UserNotExist,Integer.parseInt(environment.getProperty("language"))));
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.UserNotExist));
         }
         return new SuccesResult();
     }
@@ -218,7 +219,7 @@ public class RentalManager implements RentalService {
     @Override
     public Result checkIfRentalExists(int rentalId) {
         if (!this.rentalDao.existsById(rentalId)) {
-            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentalNotFound,Integer.parseInt(environment.getProperty("language"))));
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentalNotFound));
         }
         return new SuccesResult();
     }
@@ -227,14 +228,25 @@ public class RentalManager implements RentalService {
         if (rentalDate.compareTo(returnDate) < 0) {
             return new SuccesResult();
         }
-        return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.InvalidReturnKilometer,Integer.parseInt(environment.getProperty("language"))));
+        return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.InvalidReturnKilometer));
     }
 
-    private Result checkDifferenceBetweenKilometers(int Kilometer, int returnKilometer) {
-        if (Kilometer < returnKilometer) {
-            return new SuccesResult();
+    public Integer rentOfTotalPrice(DropOffCarRequest dropOffCarRequest) {
+
+        int dailyPriceOfCar = getDailyPriceOfRentedCar(dropOffCarRequest.getRentalId()).getData();
+        int priceOfDifferentCity = invoiceService.ifCarReturnedToDifferentCity(dropOffCarRequest.getRentalId(), dropOffCarRequest.getReturnCityId()).getData();
+        int additionalServicePrice = sumAdditionalServicePriceByRentalId(dropOffCarRequest.getRentalId()) * rentOfTotalRentDate(dropOffCarRequest);
+        int totalPrice = (rentOfTotalRentDate(dropOffCarRequest) * dailyPriceOfCar) + priceOfDifferentCity + additionalServicePrice;
+        return totalPrice;
+    }
+
+    public Integer rentOfTotalRentDate(DropOffCarRequest dropOffCarRequest) {
+        Date rentDateForInvoice = (Date) (getById(dropOffCarRequest.getRentalId()).getRentDate());
+        int totalRentDay = invoiceService.calculateDifferenceBetweenDays(dropOffCarRequest.getReturnDate(), rentDateForInvoice);
+        if (totalRentDay == 0) { // bir günden az kullansa bari bir günlük ücret.
+            totalRentDay = 1;
         }
-        return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.InvalidReturnRentDate,Integer.parseInt(environment.getProperty("language"))));
+        return totalRentDay;
     }
 
 }

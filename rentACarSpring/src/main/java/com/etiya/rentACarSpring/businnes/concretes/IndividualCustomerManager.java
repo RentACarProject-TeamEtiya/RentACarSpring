@@ -55,7 +55,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
                 .map(individualCustomer -> modelMapperService.forDto().map(individualCustomer, IndividualCustomerSearchListDto.class))
                 .collect(Collectors.toList());
 
-        return new SuccesDataResult<List<IndividualCustomerSearchListDto>>(response, languageWordService.getByLanguageAndKeyId(Messages.IndividualCustomerListed, Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesDataResult<List<IndividualCustomerSearchListDto>>(response, languageWordService.getByLanguageAndKeyId(Messages.IndividualCustomerListed));
     }
 
     @Override
@@ -70,7 +70,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
         IndividualCustomer individualCustomer = modelMapperService.forRequest().map(createIndividualCustomerRequest, IndividualCustomer.class);
         individualCustomer.setFindexScore(findexScoreService.getIndividualFindexScore(individualCustomer.getIdentityNumber()));
         this.individualCustomerDao.save(individualCustomer);
-        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.IndividualCustomerAdded, Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.IndividualCustomerAdded));
     }
 
     @Override
@@ -83,19 +83,19 @@ public class IndividualCustomerManager implements IndividualCustomerService {
         IndividualCustomer individualCustomer = modelMapperService.forRequest().map(updateIndividualCustomerRequest, IndividualCustomer.class);
         individualCustomer.setFindexScore(findexScoreService.getIndividualFindexScore(individualCustomer.getIdentityNumber()));
         this.individualCustomerDao.save(individualCustomer);
-        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.IndividualCustomerUpdated, Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.IndividualCustomerUpdated));
     }
 
     @Override
     public Result delete(DeleteIndividualCustomerRequest deleteIndividualCustomerRequest) {
         this.individualCustomerDao.deleteById(deleteIndividualCustomerRequest.getIndividualCustomersId());
-        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.IndividualCustomerDeleted, Integer.parseInt(environment.getProperty("language"))));
+        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.IndividualCustomerDeleted));
     }
 
     private Result checkIfIdentityNumberExists(String identityNumber) {
 
         if (this.individualCustomerDao.existsByIdentityNumber(identityNumber)) {
-            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.IdentityNumberAlreadyExist, Integer.parseInt(environment.getProperty("language"))));
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.IdentityNumberAlreadyExist));
         }
         return new SuccesResult();
     }
