@@ -7,9 +7,11 @@ import java.util.stream.Collectors;
 import ch.qos.logback.core.CoreConstants;
 import com.etiya.rentACarSpring.businnes.abstracts.*;
 import com.etiya.rentACarSpring.businnes.abstracts.message.LanguageWordService;
+import com.etiya.rentACarSpring.businnes.request.InvoiceRequest.CreateInvoiceRequest;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.DropOffCarRequest;
 import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.results.*;
+import com.etiya.rentACarSpring.entities.Car;
 import com.etiya.rentACarSpring.entities.Rental;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -61,24 +63,39 @@ public class InvoiceManager implements InvoiceService {
         return new SuccesDataResult<List<InvoiceSearchListDto>>(response, languageWordService.getByLanguageAndKeyId(Messages.InvoiceListed,Integer.parseInt(environment.getProperty("language"))));
     }
 
-    @Override
-    public Result add(DropOffCarRequest dropOffCarRequest) {
-        Result rules = BusinnessRules.run(ifExistRentalIdOnInvoice(dropOffCarRequest.getRentalId())
-        );
 
+    @Override
+    public Result add(CreateInvoiceRequest createInvoiceRequest) {
+        Result rules = BusinnessRules.run(ifExistRentalIdOnInvoice(createInvoiceRequest.getRentalId())
+        );
         if (rules != null) {
             return rules;
         }
-        Invoice invoice = new Invoice();
-        invoice.setCreateDate(new java.sql.Date(new java.util.Date().getTime()));
-        invoice.setInvoiceNumber(createInvoiceNumber(dropOffCarRequest.getRentalId()).getData());
-        invoice.setTotalRentDay(rentOfTotalRentDate(dropOffCarRequest));
-        invoice.setTotalPrice(rentOfTotalPrice(dropOffCarRequest));
-        invoice.setRental(rentalService.getById(dropOffCarRequest.getRentalId()));
+        Rental rental = this.rentalService.getById(createInvoiceRequest.getRentalId());
+        Car car = this.carService.getById(rental.getCar().getCarId()).getData();
+
+        createInvoiceRequest.setCreateDate(new java.sql.Date(new java.util.Date().getTime()));
+        createInvoiceRequest.setInvoiceNumber(createInvoiceNumber(createInvoiceRequest.getRentalId()).getData());
+
+        Date rentDateForInvoice = (Date) (rentalService.getById(createInvoiceRequest.getRentalId()).getRentDate());
+        int totalRentDay = calculateDifferenceBetweenDays(rentalService.getById(createInvoiceRequest.getRentalId()).getReturnDate(), rentDateForInvoice);
+        createInvoiceRequest.setTotalRentDay(totalRentDay);
+        int additionalTotalAmount = rentalService.sumAdditionalServicePriceByRentalId(rental.getRentalId());
+        int priceOfReturnDifferentCity = ifCarReturnedToDifferentCity(createInvoiceRequest.getRentalId(), createInvoiceRequest.getReturnCityId()).getData();
+        int totalAmount = (car.getDailyPrice() * totalRentDay) + priceOfReturnDifferentCity + additionalTotalAmount;
+
+        createInvoiceRequest.setTotalPrice(totalAmount);
+        createInvoiceRequest.setRentalId((createInvoiceRequest.getRentalId()));
+        createInvoiceRequest.setRentDate(rental.getRentDate());
+        createInvoiceRequest.setReturnDate(rental.getReturnDate());
+        car.setKilometer(rental.getReturnKilometer());
+        car.setCity(rental.getReturnCity());
+
+        Invoice invoice = modelMapperService.forRequest().map(createInvoiceRequest, Invoice.class);
         this.invoiceDao.save(invoice);
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.InvoiceAdded,Integer.parseInt(environment.getProperty("language"))));
     }
-
+    
     @Override
     public Result update(UpdateInvoiceRequest updateInvoiceRequest) {
 
@@ -130,12 +147,12 @@ public class InvoiceManager implements InvoiceService {
     }
 
     public Integer rentOfTotalPrice(DropOffCarRequest dropOffCarRequest) {
+
         int dailyPriceOfCar = this.rentalService.getDailyPriceOfRentedCar(dropOffCarRequest.getRentalId()).getData();
         int priceOfDiffrentCity = ifCarReturnedToDifferentCity(dropOffCarRequest.getRentalId(), dropOffCarRequest.getReturnCityId()).getData();
         int addtionalServicePrice = rentalService.sumAdditionalServicePriceByRentalId(dropOffCarRequest.getRentalId()) * rentOfTotalRentDate(dropOffCarRequest);
         int totalPrice = (rentOfTotalRentDate(dropOffCarRequest) * dailyPriceOfCar) + priceOfDiffrentCity + addtionalServicePrice;
         return totalPrice;
-
     }
 
     private Integer rentOfTotalRentDate(DropOffCarRequest dropOffCarRequest) {

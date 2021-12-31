@@ -126,7 +126,6 @@ public class RentalManager implements RentalService {
         car.setCity(rental.getReturnCity());
 
         this.rentalDao.save(rental);
-        this.invoiceService.add(dropOffCarRequest);
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarReturnedRental,Integer.parseInt(environment.getProperty("language"))));
     }
 
