@@ -102,6 +102,7 @@ public class Messages {
 	public static String InvoiceListed="invoice_listed";
 	public static String InvoiceByDateListed="invoice_by_date_listed";
 	public static String InvoiceAlreadyExistForThisRent="invoice_already_exist_for_this_rent";
+	public static String RentalNotCompleted="rental_not_completed";
 
 	public static String RentalAdditionalServiceAdded="rental_additional_service_added";
 	public static String RentalAdditionalServiceUpdated="rental_additional_service_updated";

@@ -249,4 +249,5 @@ public class RentalManager implements RentalService {
         return totalRentDay;
     }
 
+
 }

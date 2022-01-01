@@ -64,7 +64,8 @@ public class InvoiceManager implements InvoiceService {
 
     @Override
     public Result add(CreateInvoiceRequest createInvoiceRequest) {
-        Result rules = BusinnessRules.run(ifExistRentalIdOnInvoice(createInvoiceRequest.getRentalId())
+        Result rules = BusinnessRules.run(ifExistRentalIdOnInvoice(createInvoiceRequest.getRentalId()),
+                isReturnDateNull(createInvoiceRequest.getRentalId())
         );
         if (rules != null) {
             return rules;
@@ -135,9 +136,9 @@ public class InvoiceManager implements InvoiceService {
     }
 
     public DataResult<Integer> ifCarReturnedToDifferentCity(int rentalId, int returnCityId) {
-        if (this.rentalService.getById(rentalId).getTakeCity() != this.cityService.getById(returnCityId).getData())
-            return new SuccesDataResult<>(500);
-        return new SuccesDataResult<>(0);
+        if (this.rentalService.getById(rentalId).getTakeCity().equals(this.rentalService.getById(rentalId).getReturnCity())){
+            return new SuccesDataResult<>(0);}
+        return new ErrorDataResult<>(500);
     }
 
     private DataResult<String> createInvoiceNumber(int rentalId) {
@@ -156,6 +157,14 @@ public class InvoiceManager implements InvoiceService {
         Integer result = this.invoiceDao.countByRental_RentalId(rentalId);
         if (result > 0) {
             return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.InvoiceAlreadyExistForThisRent));
+        }
+        return new SuccesResult();
+    }
+
+    private Result isReturnDateNull(int rentalId){
+        Rental result = this.rentalService.getById(rentalId);
+        if (result.getReturnDate() == null){
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentalNotCompleted));
         }
         return new SuccesResult();
     }
