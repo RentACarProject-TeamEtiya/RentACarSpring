@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.etiya.rentACarSpring.businnes.abstracts.AuthService;
+import com.etiya.rentACarSpring.businnes.abstracts.UserService;
 import com.etiya.rentACarSpring.businnes.abstracts.message.LanguageWordService;
 import com.etiya.rentACarSpring.businnes.constants.Messages;
 import com.etiya.rentACarSpring.core.utilities.adapter.findexScoreServiceAdapter.findexScoreService;
@@ -34,11 +35,13 @@ public class IndividualCustomerManager implements IndividualCustomerService {
     private Environment environment;
     private LanguageWordService languageWordService;
     private AuthService authService;
+    private UserService userService;
 
     @Autowired
     public IndividualCustomerManager(IndividualCustomerDao individualCustomerDao,
                                      ModelMapperService modelMapperService, findexScoreService findexScoreService, Environment environment,
-                                     LanguageWordService languageWordService,@Lazy AuthService authService) {
+                                     LanguageWordService languageWordService,@Lazy AuthService authService,
+                                     UserService userService) {
         super();
         this.individualCustomerDao = individualCustomerDao;
         this.modelMapperService = modelMapperService;
@@ -46,6 +49,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
         this.environment = environment;
         this.languageWordService = languageWordService;
         this.authService=authService;
+        this.userService=userService;
     }
 
     @Override
@@ -75,7 +79,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 
     @Override
     public Result update(UpdateIndividualCustomerRequest updateIndividualCustomerRequest) {
-        Result result = BusinnessRules.run(checkIfIdentityNumberExists(updateIndividualCustomerRequest.getIdentityNumber())
+        Result result = BusinnessRules.run(userService.existByUserId(updateIndividualCustomerRequest.getUserId())
         );
         if (result != null) {
             return result;
@@ -88,6 +92,11 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 
     @Override
     public Result delete(DeleteIndividualCustomerRequest deleteIndividualCustomerRequest) {
+        Result result = BusinnessRules.run(userService.existByUserId(deleteIndividualCustomerRequest.getIndividualCustomersId())
+        );
+        if (result != null) {
+            return result;
+        }
         this.individualCustomerDao.deleteById(deleteIndividualCustomerRequest.getIndividualCustomersId());
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.IndividualCustomerDeleted));
     }

@@ -66,7 +66,8 @@ public class CreditCardManager implements CreditCardService {
     @Override
     public Result update(UpdateCreditCardRequest updateCreditCardRequest) {
         Result result = BusinnessRules.run(checkIfCreditCardFormatIsTrue(updateCreditCardRequest.getCardNumber()),
-                checkIfCreditCardCvvFormatIsTrue(updateCreditCardRequest.getCvv()));
+                checkIfCreditCardCvvFormatIsTrue(updateCreditCardRequest.getCvv()),
+                checkIfCardExists(updateCreditCardRequest.getCreditCardId()));
         if (result != null) {
             return result;
         }
@@ -78,6 +79,10 @@ public class CreditCardManager implements CreditCardService {
 
     @Override
     public Result delete(DeleteCreditCardRequest deleteCreditCardRequest) {
+        Result result = BusinnessRules.run(checkIfCardExists(deleteCreditCardRequest.getCreditCardId()));
+        if (result != null) {
+            return result;
+        }
         this.creditCardDao.deleteById(deleteCreditCardRequest.getCreditCardId());
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CreditCardDeleted));
     }
@@ -117,6 +122,13 @@ public class CreditCardManager implements CreditCardService {
         if (!matcher.matches())
             return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CvvFormatIsNotCorrect));
 
+        return new SuccesResult();
+    }
+
+    private Result checkIfCardExists(int creditCardId) {
+        if (!this.creditCardDao.existsById(creditCardId)) {
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CreditCardNotFound));
+        }
         return new SuccesResult();
     }
 }

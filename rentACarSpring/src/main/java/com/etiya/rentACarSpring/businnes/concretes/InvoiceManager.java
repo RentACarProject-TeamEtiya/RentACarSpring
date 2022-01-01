@@ -103,7 +103,11 @@ public class InvoiceManager implements InvoiceService {
 
     @Override
     public Result update(UpdateInvoiceRequest updateInvoiceRequest) {
-
+        Result rules = BusinnessRules.run( checkIfInvoiceExists(updateInvoiceRequest.getInvoiceId())
+        );
+        if (rules != null) {
+            return rules;
+        }
         Invoice invoice = modelMapperService.forRequest().map(updateInvoiceRequest, Invoice.class);
         this.invoiceDao.save(invoice);
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.InvoiceUpdated));
@@ -111,6 +115,11 @@ public class InvoiceManager implements InvoiceService {
 
     @Override
     public Result delete(DeleteInvoiceRequest deleteInvoiceRequest) {
+        Result rules = BusinnessRules.run( checkIfInvoiceExists(deleteInvoiceRequest.getInvoiceId())
+        );
+        if (rules != null) {
+            return rules;
+        }
         this.invoiceDao.deleteById(deleteInvoiceRequest.getInvoiceId());
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.InvoiceDeleted));
 
@@ -165,6 +174,13 @@ public class InvoiceManager implements InvoiceService {
         Rental result = this.rentalService.getById(rentalId);
         if (result.getReturnDate() == null){
             return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentalNotCompleted));
+        }
+        return new SuccesResult();
+    }
+
+    private Result checkIfInvoiceExists(int invoiceId) {
+        if (!this.invoiceDao.existsById(invoiceId)) {
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.InvoiceNotFound));
         }
         return new SuccesResult();
     }

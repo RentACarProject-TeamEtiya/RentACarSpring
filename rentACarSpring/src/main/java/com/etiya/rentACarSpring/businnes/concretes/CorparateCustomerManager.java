@@ -1,6 +1,7 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
 import com.etiya.rentACarSpring.businnes.abstracts.AuthService;
+import com.etiya.rentACarSpring.businnes.abstracts.UserService;
 import com.etiya.rentACarSpring.businnes.abstracts.message.LanguageWordService;
 import com.etiya.rentACarSpring.businnes.constants.Messages;
 import com.etiya.rentACarSpring.businnes.dtos.CorparateCustomerSearchListDto;
@@ -32,11 +33,13 @@ public class CorparateCustomerManager implements CorparateCustomerService {
     private Environment environment;
     private LanguageWordService languageWordService;
     private AuthService authService;
+    private UserService userService;
+
 
     @Autowired
     public CorparateCustomerManager(CorparateCustomerDao corparateCustomerDao, ModelMapperService modelMapperService
                     ,findexScoreService findexScoreService, Environment environment, LanguageWordService languageWordService,
-                                    @Lazy AuthService authService) {
+                                    @Lazy AuthService authService,UserService userService) {
         super();
         this.corparateCustomerDao = corparateCustomerDao;
         this.modelMapperService = modelMapperService;
@@ -44,6 +47,7 @@ public class CorparateCustomerManager implements CorparateCustomerService {
         this.environment = environment;
         this.languageWordService = languageWordService;
         this.authService= authService;
+        this.userService=userService;
     }
 
     @Override
@@ -60,7 +64,6 @@ public class CorparateCustomerManager implements CorparateCustomerService {
     public Result add(CreateCorparateRequest createCorparateRequest) {
         Result result = BusinnessRules.run(checkIfTaxNumberExists(createCorparateRequest.getTaxNumber()),
                 authService.checkEmailIfExists(createCorparateRequest.getEmail())
-
         );
         if (result != null) {
             return result;
@@ -74,7 +77,8 @@ public class CorparateCustomerManager implements CorparateCustomerService {
 
     @Override
     public Result update(UpdateCorparateRequest updateCorparateRequest) {
-        Result result = BusinnessRules.run(checkIfTaxNumberExists(updateCorparateRequest.getTaxNumber()));
+        Result result = BusinnessRules.run( userService.existByUserId(updateCorparateRequest.getUserId())
+        );
         if (result != null) {
             return result;
         }
@@ -87,6 +91,11 @@ public class CorparateCustomerManager implements CorparateCustomerService {
 
     @Override
     public Result delete(DeleteCorparateRequest deleteCorparateRequest) {
+        Result result = BusinnessRules.run( userService.existByUserId(deleteCorparateRequest.getCorparateCustomerId())
+        );
+        if (result != null) {
+            return result;
+        }
         this.corparateCustomerDao.deleteById(deleteCorparateRequest.getCorparateCustomerId());
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CorporateCustomerDeleted));
     }

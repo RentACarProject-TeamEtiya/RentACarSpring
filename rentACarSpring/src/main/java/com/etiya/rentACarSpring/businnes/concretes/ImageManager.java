@@ -100,12 +100,16 @@ public class ImageManager implements ImageService {
 
     @Override
     public Result delete(DeleteImageRequest deleteImageRequest) {
+        Result result = BusinnessRules.run(checkIfImageExists(deleteImageRequest.getImageId())
+        );
+        if (result != null) {
+            return result;
+        }
+
         Image image = this.imageDao.getById(deleteImageRequest.getImageId());
 
         this.imageDao.delete(image);
-
         this.fileHelper.deleteImage(image.getImageUrl());
-
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarImageDeleted));
     }
 

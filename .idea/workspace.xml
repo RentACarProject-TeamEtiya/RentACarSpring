@@ -6,12 +6,26 @@
   <component name="ChangeListManager">
     <list default="true" id="639878a2-ff84-47e6-8a59-fb3db46e61aa" name="Changes" comment="code refactor added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/BrandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/BrandService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/BrandManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/BrandManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarMaintenanceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarMaintenanceManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CorparateCustomerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CorparateCustomerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CreditCardManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CreditCardManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/ImageManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/ImageManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/IndividualCustomerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/IndividualCustomerManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/InvoiceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/InvoiceManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/RentalManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/RentalManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/UserManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/constants/Messages.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/constants/Messages.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/CarRequest/UpdateCarRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/request/CarRequest/UpdateCarRequest.java" afterDir="false" />
     </list>
-    <list id="0038a66b-6315-4467-94b4-696ffe09bc2d" name="Changes by anil.arslan" comment="" />
-    <list id="8a393698-2eeb-4d1e-b943-587864b39d49" name="Changes by kubra.bayindir" comment="" />
+    <list id="0038a66b-6315-4467-94b4-696ffe09bc2d" name="Changes by anil.arslan" comment="">
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/abstracts/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CorparateCustomerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CorparateCustomerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/IndividualCustomerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/IndividualCustomerManager.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,6 +76,43 @@
         <entry key="JPA Structure" value="false" />
       </map>
     </option>
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/IndividualCustomerManager.java">
+      <ranges>
+        <range start1="6" end1="6" start2="6" end2="7" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="36" end1="36" start2="37" end2="38" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="40" end1="41" start2="42" end2="44" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="48" end1="48" start2="51" end2="52" changelist="0038a66b-6315-4467-94b4-696ffe09bc2d" />
+        <range start1="77" end1="78" start2="81" end2="82" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="90" end1="90" start2="94" end2="99" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CarManager.java">
+      <ranges>
+        <range start1="5" end1="5" start2="5" end2="8" changelist="0038a66b-6315-4467-94b4-696ffe09bc2d" />
+        <range start1="8" end1="8" start2="11" end2="12" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="33" end1="33" start2="37" end2="40" changelist="0038a66b-6315-4467-94b4-696ffe09bc2d" />
+        <range start1="36" end1="37" start2="43" end2="44" changelist="0038a66b-6315-4467-94b4-696ffe09bc2d" />
+        <range start1="43" end1="43" start2="50" end2="53" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="57" end1="57" start2="67" end2="74" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="65" end1="65" start2="82" end2="90" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="66" end1="66" start2="91" end2="92" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="72" end1="73" start2="98" end2="103" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="75" end1="76" start2="105" end2="105" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/rentACarSpring/src/main/java/com/etiya/rentACarSpring/businnes/concretes/CorparateCustomerManager.java">
+      <ranges>
+        <range start1="3" end1="3" start2="3" end2="4" changelist="0038a66b-6315-4467-94b4-696ffe09bc2d" />
+        <range start1="34" end1="34" start2="35" end2="37" changelist="0038a66b-6315-4467-94b4-696ffe09bc2d" />
+        <range start1="38" end1="39" start2="41" end2="42" changelist="0038a66b-6315-4467-94b4-696ffe09bc2d" />
+        <range start1="46" end1="46" start2="49" end2="50" changelist="0038a66b-6315-4467-94b4-696ffe09bc2d" />
+        <range start1="62" end1="63" start2="66" end2="66" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="76" end1="77" start2="79" end2="81" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+        <range start1="89" end1="89" start2="93" end2="98" changelist="639878a2-ff84-47e6-8a59-fb3db46e61aa" />
+      </ranges>
+    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -177,7 +228,11 @@
       <workItem from="1640967371379" duration="109000" />
       <workItem from="1640968191484" duration="712000" />
       <workItem from="1641029971682" duration="7203000" />
-      <workItem from="1641040699462" duration="633000" />
+      <workItem from="1641040699462" duration="896000" />
+      <workItem from="1641042519489" duration="595000" />
+      <workItem from="1641044613505" duration="39000" />
+      <workItem from="1641045079443" duration="8060000" />
+      <workItem from="1641063085503" duration="2797000" />
     </task>
     <task id="LOCAL-00001" summary="new update">
       <created>1638388948248</created>

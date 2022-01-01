@@ -85,7 +85,7 @@ public class BrandManager implements BrandService {
     }
 
 
-    private Result checkIfBrandExists(int brandId) {
+    public Result checkIfBrandExists(int brandId) {
         if (!this.brandDao.existsById(brandId)) {
             return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.BrandNotFound));
         }

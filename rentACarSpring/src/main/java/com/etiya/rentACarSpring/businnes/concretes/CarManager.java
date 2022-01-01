@@ -3,9 +3,13 @@ package com.etiya.rentACarSpring.businnes.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.etiya.rentACarSpring.businnes.abstracts.BrandService;
+import com.etiya.rentACarSpring.businnes.abstracts.CityService;
+import com.etiya.rentACarSpring.businnes.abstracts.ColorService;
 import com.etiya.rentACarSpring.businnes.abstracts.message.LanguageService;
 import com.etiya.rentACarSpring.businnes.abstracts.message.LanguageWordService;
 import com.etiya.rentACarSpring.businnes.constants.Messages;
+import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.results.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -31,16 +35,22 @@ public class CarManager implements CarService {
     private findexScoreService findexScoreService;
     private Environment environment;
     private LanguageWordService languageWordService;
+    private CityService cityService;
+    private BrandService brandService;
+    private ColorService colorService;
 
     @Autowired
     public CarManager(CarDao carDao, ModelMapperService modelMapperService, findexScoreService findexScoreService, Environment environment
-            ,LanguageWordService languageWordService) {
+            ,LanguageWordService languageWordService,CityService cityService, BrandService brandService, ColorService colorService) {
         super();
         this.carDao = carDao;
         this.modelMapperService = modelMapperService;
         this.findexScoreService = findexScoreService;
         this.environment = environment;
         this.languageWordService = languageWordService;
+        this.cityService=cityService;
+        this.colorService=colorService;
+        this.brandService=brandService;
 
     }
 
@@ -55,6 +65,13 @@ public class CarManager implements CarService {
 
     @Override
     public Result save(CreateCarRequest createCarRequest) {
+        Result result = BusinnessRules.run( cityService.checkIfCityExists(createCarRequest.getCityId()),
+                colorService.checkIfColorExists(createCarRequest.getColorId()),
+                brandService.checkIfBrandExists(createCarRequest.getBrandId())
+        );
+        if (result != null) {
+            return result;
+        }
         Car car = modelMapperService.forRequest().map(createCarRequest, Car.class);
         car.setFindexScore(findexScoreService.sendCarFindexScore());
         this.carDao.save(car);
@@ -63,17 +80,29 @@ public class CarManager implements CarService {
 
     @Override
     public Result update(UpdateCarRequest updateCarRequest) {
+        Result result = BusinnessRules.run( checkCarExistsInGallery(updateCarRequest.getCarId()),
+                cityService.checkIfCityExists(updateCarRequest.getCityId()),
+                colorService.checkIfColorExists(updateCarRequest.getColorId()),
+                brandService.checkIfBrandExists(updateCarRequest.getBrandId())
+        );
+        if (result != null) {
+            return result;
+        }
         Car car = modelMapperService.forRequest().map(updateCarRequest, Car.class);
+        car.setFindexScore(this.carDao.getById(updateCarRequest.getCarId()).getFindexScore());
         this.carDao.save(car);
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarUpdated));
     }
 
     @Override
     public Result delete(DeleteCarRequest deleteCarRequest) {
-
+        Result result = BusinnessRules.run( checkCarExistsInGallery(deleteCarRequest.getCarId())
+        );
+        if (result != null) {
+            return result;
+        }
         this.carDao.deleteById(deleteCarRequest.getCarId());
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarDeleted));
-
     }
 
     @Override

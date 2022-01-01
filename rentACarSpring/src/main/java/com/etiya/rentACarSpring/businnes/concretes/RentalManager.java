@@ -100,22 +100,20 @@ public class RentalManager implements RentalService {
 
     @Override
     public Result dropOffCar(DropOffCarRequest dropOffCarRequest) {
-        Rental result = this.rentalDao.getByRentalId(dropOffCarRequest.getRentalId());
-        Rental rental = modelMapperService.forRequest().map(dropOffCarRequest, Rental.class);
-
-
-        Result rules = BusinnessRules.run(checkCreditCardBalance(dropOffCarRequest,
-                        dropOffCarRequest.getCreditCardRentalRequest()),
-                checkReturnDate(dropOffCarRequest.getRentalId()),
-                creditcardService.checkIfCreditCardCvvFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCvv()),
-                creditcardService.checkIfCreditCardFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCardNumber()),
-                checkDifferenceBetweenDates(result.getRentDate(), dropOffCarRequest.getReturnDate())
-
+        Result rules = BusinnessRules.run(checkIfRentalExists(dropOffCarRequest.getRentalId()),
+                checkCreditCardBalance(dropOffCarRequest,dropOffCarRequest.getCreditCardRentalRequest()),
+                  checkReturnDate(dropOffCarRequest.getRentalId()),
+                 creditcardService.checkIfCreditCardCvvFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCvv()),
+                 creditcardService.checkIfCreditCardFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCardNumber()),
+                checkDifferenceBetweenDates(dropOffCarRequest.getRentalId(), dropOffCarRequest.getReturnDate())
         );
+
         if (rules != null) {
             return rules;
         }
 
+        Rental result = this.rentalDao.getByRentalId(dropOffCarRequest.getRentalId());
+        Rental rental = modelMapperService.forRequest().map(dropOffCarRequest, Rental.class);
         rental.setRentalId(result.getRentalId());
         rental.setRentDate(result.getRentDate());
         rental.setTakeCity(result.getTakeCity());
@@ -145,6 +143,7 @@ public class RentalManager implements RentalService {
 
     @Override
     public Rental getById(int rentalId) {
+
         return this.rentalDao.getById(rentalId);
     }
 
@@ -161,6 +160,7 @@ public class RentalManager implements RentalService {
     }
 
     public Integer sumAdditionalServicePriceByRentalId(int rentalId) {
+
         List<Integer> prices = this.rentalDao.getAdditionalRentalPrice(rentalId);
         int additionalTotalPrice = 0;
 
@@ -183,6 +183,11 @@ public class RentalManager implements RentalService {
     }
 
     public Result checkReturnDate(int rentalId) {
+        boolean check = this.rentalDao.existsById(rentalId);
+        if(!check){
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentalNotFound));
+        }
+
         Rental result = this.rentalDao.getByRentalId(rentalId);
         if ((result.getReturnDate() != null)) {
             return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentCompleted));
@@ -191,7 +196,10 @@ public class RentalManager implements RentalService {
     }
 
     private Result checkCreditCardBalance(DropOffCarRequest dropOffCarRequest, CreditCardRentalRequest creditCardRentalRequest) {
-
+        boolean check = this.rentalDao.existsById(dropOffCarRequest.getRentalId());
+        if(!check){
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentalNotFound));
+        }
         PosServiceRequest posServiceRequest = new PosServiceRequest();
         posServiceRequest.setPrice(rentOfTotalPrice(dropOffCarRequest));
         posServiceRequest.setCvv(creditCardRentalRequest.getCvv());
@@ -218,17 +226,29 @@ public class RentalManager implements RentalService {
 
     @Override
     public Result checkIfRentalExists(int rentalId) {
+        boolean check = this.rentalDao.existsById(rentalId);
+        if(!check){
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentalNotFound));
+        }
+
         if (!this.rentalDao.existsById(rentalId)) {
             return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentalNotFound));
         }
         return new SuccesResult();
     }
 
-    private Result checkDifferenceBetweenDates(Date rentalDate, Date returnDate) {
-        if (rentalDate.compareTo(returnDate) < 0) {
+    private Result checkDifferenceBetweenDates(int rentalId, Date returnDate) {
+
+        boolean check = this.rentalDao.existsById(rentalId);
+        if(!check){
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentalNotFound));
+        }
+
+        Rental result = this.rentalDao.getByRentalId(rentalId);
+        if (result.getRentDate().compareTo(returnDate) <= 0) {
             return new SuccesResult();
         }
-        return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.InvalidReturnKilometer));
+        return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.InvalidReturnRentDate));
     }
 
     public Integer rentOfTotalPrice(DropOffCarRequest dropOffCarRequest) {

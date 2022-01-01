@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.etiya.rentACarSpring.businnes.abstracts.CarService;
 import com.etiya.rentACarSpring.businnes.abstracts.message.LanguageWordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -35,16 +36,19 @@ public class CarMaintenanceManager implements CarMaintenanceService {
     private RentalService rentalService;
     private Environment environment;
     private LanguageWordService languageWordService;
+    private CarService carService;
 
     @Autowired
     public CarMaintenanceManager(CarMaintenanceDao carMaintenanceDao, ModelMapperService modelMapperService,
-                                 RentalService rentalService, Environment environment,LanguageWordService languageWordService) {
+                                 RentalService rentalService, Environment environment,LanguageWordService languageWordService,
+                                 CarService carService) {
         super();
         this.carMaintenanceDao = carMaintenanceDao;
         this.modelMapperService = modelMapperService;
         this.rentalService = rentalService;
         this.environment = environment;
         this.languageWordService = languageWordService;
+        this.carService = carService;
     }
 
     @Override
@@ -74,7 +78,10 @@ public class CarMaintenanceManager implements CarMaintenanceService {
     @Override
     public Result update(UpdateCarMaintenanceRequest updateCarMaintenanceRequest) {
         CarMaintenance carMaintenance=this.carMaintenanceDao.getById(updateCarMaintenanceRequest.getCarMaintenanceId());
-        Result result = BusinnessRules.run(checkDate(carMaintenance.getMaintananceDate(),updateCarMaintenanceRequest.getReturnDate()));
+        Result result = BusinnessRules.run(checkDate(carMaintenance.getMaintananceDate(),updateCarMaintenanceRequest.getReturnDate()),
+                carService.checkCarExistsInGallery(updateCarMaintenanceRequest.getCarId()),
+                checkIfCarMaintenanceExists(updateCarMaintenanceRequest.getCarMaintenanceId()));
+
         if (result != null) {
             return result;
         }
@@ -89,6 +96,12 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 
     @Override
     public Result delete(DeleteCarMaintenanceRequest deleteCarMaintenanceRequest) {
+        Result result = BusinnessRules.run(
+                checkIfCarMaintenanceExists(deleteCarMaintenanceRequest.getCarMaintenanceId()));
+
+        if (result != null) {
+            return result;
+        }
         this.carMaintenanceDao.deleteById(deleteCarMaintenanceRequest.getCarMaintenanceId());
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.CarMaintenanceDeleted));
     }
@@ -126,4 +139,10 @@ public class CarMaintenanceManager implements CarMaintenanceService {
         return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.InvalidReturnMaintenanceDate));
     }
 
+    private Result checkIfCarMaintenanceExists(int maintenanceId) {
+        if (!this.carMaintenanceDao.existsById(maintenanceId)) {
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.CarMaintenanceNotFound));
+        }
+        return new SuccesResult();
+    }
 }

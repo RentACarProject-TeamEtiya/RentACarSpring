@@ -66,6 +66,7 @@ public class Messages {
 	public static String CarMaintenanceListed="car_maintenance_listed";
 	public static String InvalidReturnMaintenanceDate="invalid_return_maintenance_date";
 
+
 	public static String CorporateCustomerAdded="corporate_customer_added";
 	public static String CorporateCustomerUpdated="corporate_customer_updated";
 	public static String CorporateCustomerDeleted="corporate_customer_deleted";
@@ -86,6 +87,7 @@ public class Messages {
 	public static String CreditCardAlreadyExist="credit_card_already_exist";
 	public static String CvvFormatIsNotCorrect="cvv_format_is_not_correct";
 	public static String CreditCardBalanceNotEnough="credit_card_balance_not_enough";
+	public static String CreditCardNotFound= "credit_card_not_found";
 
 
 	public static String CarImageUploaded="car_image_uploaded";
@@ -103,6 +105,7 @@ public class Messages {
 	public static String InvoiceByDateListed="invoice_by_date_listed";
 	public static String InvoiceAlreadyExistForThisRent="invoice_already_exist_for_this_rent";
 	public static String RentalNotCompleted="rental_not_completed";
+	public static String InvoiceNotFound="invoice_not_found";
 
 	public static String RentalAdditionalServiceAdded="rental_additional_service_added";
 	public static String RentalAdditionalServiceUpdated="rental_additional_service_updated";

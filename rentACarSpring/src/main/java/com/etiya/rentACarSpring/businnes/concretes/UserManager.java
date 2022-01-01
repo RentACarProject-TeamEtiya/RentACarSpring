@@ -98,4 +98,10 @@ public class UserManager implements UserService {
         return userDao.getById(userId);
     }
 
+    public Result existByUserId (int userId) {
+        if (!this.userDao.existsById(userId)){
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.UserNotExist));
+        }
+        return new SuccesResult();
+    }
 }

@@ -82,6 +82,7 @@ public class RentalAdditionalServiceManager implements RentalAdditionalServiceSe
             return result;
         }
         RentalAdditionalService rentalAdditionalService = modelMapperService.forRequest().map(updateRentalAdditionalServiceRequest, RentalAdditionalService.class);
+        
         this.rentalAdditionalServiceDao.save(rentalAdditionalService);
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.RentalAdditionalServiceUpdated));
     }
