@@ -150,6 +150,7 @@ public class Messages {
 	public static String LanguageWordUpdated="language_word_updated";
 	public static String LanguageWordDeleted="language_word_deleted";
 	public static String LanguageWordListed="language_word_listed";
+	public static String LanguageWordNotFound="language_word_not_found";
 
 	public static String NoSuchElementException="no_such_element_exception";
 	public static String EntityNotFoundException="entity_not_found_exception";

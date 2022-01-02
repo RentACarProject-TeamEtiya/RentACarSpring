@@ -101,9 +101,9 @@ public class RentalAdditionalServiceManager implements RentalAdditionalServiceSe
 
     private Result checkIfRentalAdditionalExists(int rentalAdditionalId) {
         if (!this.rentalAdditionalServiceDao.existsById(rentalAdditionalId)) {
-            return new ErrorResult();
+            return new ErrorResult(Messages.RentalAdditionalServiceNotFound);
         }
-        return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.RentalAdditionalServiceNotFound));
+        return new SuccesResult();
 
     }
 }

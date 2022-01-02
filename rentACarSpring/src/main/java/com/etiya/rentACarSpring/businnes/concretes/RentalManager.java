@@ -1,10 +1,12 @@
 package com.etiya.rentACarSpring.businnes.concretes;
 
 //import java.util.Date;
+
 import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.etiya.rentACarSpring.businnes.abstracts.*;
 import com.etiya.rentACarSpring.businnes.abstracts.message.LanguageWordService;
 import com.etiya.rentACarSpring.businnes.request.CreditCardRentalRequest;
 import com.etiya.rentACarSpring.businnes.request.PosServiceRequest;
@@ -14,12 +16,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import com.etiya.rentACarSpring.businnes.abstracts.CarMaintenanceService;
-import com.etiya.rentACarSpring.businnes.abstracts.CarService;
-import com.etiya.rentACarSpring.businnes.abstracts.CreditCardService;
-import com.etiya.rentACarSpring.businnes.abstracts.InvoiceService;
-import com.etiya.rentACarSpring.businnes.abstracts.RentalService;
-import com.etiya.rentACarSpring.businnes.abstracts.UserService;
 import com.etiya.rentACarSpring.businnes.constants.Messages;
 import com.etiya.rentACarSpring.businnes.dtos.RentalSearchListDto;
 import com.etiya.rentACarSpring.businnes.request.RentalRequest.CreateRentalRequest;
@@ -49,12 +45,13 @@ public class RentalManager implements RentalService {
     private posSystemService posSystemService;
     private Environment environment;
     private LanguageWordService languageWordService;
+    private CityService cityService;
 
     @Autowired
     public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CarService carService,
                          UserService userService, CreditCardService creditcardService, @Lazy InvoiceService invoiceService,
                          @Lazy CarMaintenanceService carMaintenanceService, posSystemService posSystemService, Environment environment,
-                         LanguageWordService languageWordService) {
+                         LanguageWordService languageWordService, CityService cityService) {
 
         super();
         this.rentalDao = rentalDao;
@@ -67,6 +64,7 @@ public class RentalManager implements RentalService {
         this.posSystemService = posSystemService;
         this.environment = environment;
         this.languageWordService = languageWordService;
+        this.cityService = cityService;
 
     }
 
@@ -101,11 +99,13 @@ public class RentalManager implements RentalService {
     @Override
     public Result dropOffCar(DropOffCarRequest dropOffCarRequest) {
         Result rules = BusinnessRules.run(checkIfRentalExists(dropOffCarRequest.getRentalId()),
-                checkCreditCardBalance(dropOffCarRequest,dropOffCarRequest.getCreditCardRentalRequest()),
-                  checkReturnDate(dropOffCarRequest.getRentalId()),
-                 creditcardService.checkIfCreditCardCvvFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCvv()),
-                 creditcardService.checkIfCreditCardFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCardNumber()),
-                checkDifferenceBetweenDates(dropOffCarRequest.getRentalId(), dropOffCarRequest.getReturnDate())
+                checkCreditCardBalance(dropOffCarRequest, dropOffCarRequest.getCreditCardRentalRequest()),
+                checkReturnDate(dropOffCarRequest.getRentalId()),
+                creditcardService.checkIfCreditCardCvvFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCvv()),
+                creditcardService.checkIfCreditCardFormatIsTrue(dropOffCarRequest.getCreditCardRentalRequest().getCardNumber()),
+                checkDifferenceBetweenDates(dropOffCarRequest.getRentalId(), dropOffCarRequest.getReturnDate()),
+                cityService.checkIfCityExists(dropOffCarRequest.getReturnCityId()),
+                checkDifferenceBetweenKilometers(dropOffCarRequest.getRentalId(),dropOffCarRequest.getReturnKilometer())
         );
 
         if (rules != null) {
@@ -184,7 +184,7 @@ public class RentalManager implements RentalService {
 
     public Result checkReturnDate(int rentalId) {
         boolean check = this.rentalDao.existsById(rentalId);
-        if(!check){
+        if (!check) {
             return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentalNotFound));
         }
 
@@ -197,7 +197,7 @@ public class RentalManager implements RentalService {
 
     private Result checkCreditCardBalance(DropOffCarRequest dropOffCarRequest, CreditCardRentalRequest creditCardRentalRequest) {
         boolean check = this.rentalDao.existsById(dropOffCarRequest.getRentalId());
-        if(!check){
+        if (!check) {
             return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentalNotFound));
         }
         PosServiceRequest posServiceRequest = new PosServiceRequest();
@@ -227,7 +227,7 @@ public class RentalManager implements RentalService {
     @Override
     public Result checkIfRentalExists(int rentalId) {
         boolean check = this.rentalDao.existsById(rentalId);
-        if(!check){
+        if (!check) {
             return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentalNotFound));
         }
 
@@ -240,7 +240,7 @@ public class RentalManager implements RentalService {
     private Result checkDifferenceBetweenDates(int rentalId, Date returnDate) {
 
         boolean check = this.rentalDao.existsById(rentalId);
-        if(!check){
+        if (!check) {
             return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.RentalNotFound));
         }
 
@@ -252,10 +252,10 @@ public class RentalManager implements RentalService {
     }
 
     public Integer rentOfTotalPrice(DropOffCarRequest dropOffCarRequest) {
-
+        // kredi kartı bakiye için
         int dailyPriceOfCar = getDailyPriceOfRentedCar(dropOffCarRequest.getRentalId()).getData();
         int priceOfDifferentCity = invoiceService.ifCarReturnedToDifferentCity(dropOffCarRequest.getRentalId(), dropOffCarRequest.getReturnCityId()).getData();
-        int additionalServicePrice = sumAdditionalServicePriceByRentalId(dropOffCarRequest.getRentalId()) * rentOfTotalRentDate(dropOffCarRequest);
+        int additionalServicePrice = sumAdditionalServicePriceByRentalId(dropOffCarRequest.getRentalId());
         int totalPrice = (rentOfTotalRentDate(dropOffCarRequest) * dailyPriceOfCar) + priceOfDifferentCity + additionalServicePrice;
         return totalPrice;
     }
@@ -269,5 +269,14 @@ public class RentalManager implements RentalService {
         return totalRentDay;
     }
 
+    private Result checkDifferenceBetweenKilometers(int rentalId, int returnKilometer) {
+
+        Rental rental = this.rentalDao.getByRentalId(rentalId);
+        Car car = this.carService.getById(rental.getCar().getCarId()).getData();
+        if (Integer.parseInt(car.getKilometer()) < returnKilometer) {
+            return new SuccesResult();
+        }
+        return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.InvalidReturnKilometer));
+    }
 
 }

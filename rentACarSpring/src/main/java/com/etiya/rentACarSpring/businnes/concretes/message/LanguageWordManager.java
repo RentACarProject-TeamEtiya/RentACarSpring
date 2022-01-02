@@ -67,6 +67,10 @@ public class LanguageWordManager implements LanguageWordService {
 
     @Override
     public Result update(UpdateLanguageWordRequest updateLanguageWordRequest) {
+        Result result = BusinnessRules.run(checkIfLanguageWordExists(updateLanguageWordRequest.getId()));
+        if (result != null) {
+            return result;
+        }
         LanguageWord languageWord = modelMapperService.forRequest().map(updateLanguageWordRequest, LanguageWord.class);
         this.languageWordDao.save(languageWord);
         return new SuccesResult(getByLanguageAndKeyId(Messages.LanguageWordUpdated));
@@ -74,6 +78,10 @@ public class LanguageWordManager implements LanguageWordService {
 
     @Override
     public Result delete(DeleteLanguageWordRequest deleteLanguageWordRequest) {
+        Result result = BusinnessRules.run(checkIfLanguageWordExists(deleteLanguageWordRequest.getId()));
+        if (result != null) {
+            return result;
+        }
         this.languageWordDao.deleteById(deleteLanguageWordRequest.getId());
         return new SuccesResult(getByLanguageAndKeyId(Messages.LanguageWordDeleted));
     }
@@ -95,5 +103,12 @@ public class LanguageWordManager implements LanguageWordService {
         if(!this.languageService.checkLanguageExists(this.languageId).isSuccess()){
             this.languageId=this.defaultLanguageId;
         }
+    }
+
+    public Result checkIfLanguageWordExists(int languageWordId) {
+        if (!this.languageWordDao.existsById(languageWordId)) {
+            return new ErrorResult(getByLanguageAndKeyId(Messages.LanguageWordNotFound));
+        }
+        return new SuccesResult();
     }
 }

@@ -7,6 +7,7 @@ import com.etiya.rentACarSpring.businnes.dtos.message.LanguageSearchListDto;
 import com.etiya.rentACarSpring.businnes.request.MessageRequest.LanguageRequest.CreateLanguageRequest;
 import com.etiya.rentACarSpring.businnes.request.MessageRequest.LanguageRequest.DeleteLanguageRequest;
 import com.etiya.rentACarSpring.businnes.request.MessageRequest.LanguageRequest.UpdateLanguageRequest;
+import com.etiya.rentACarSpring.core.utilities.businnessRules.BusinnessRules;
 import com.etiya.rentACarSpring.core.utilities.mapping.ModelMapperService;
 import com.etiya.rentACarSpring.core.utilities.results.*;
 import com.etiya.rentACarSpring.dataAccess.abstracts.message.LanguageDao;
@@ -55,6 +56,10 @@ public class LanguageManager implements LanguageService {
 
     @Override
     public Result update(UpdateLanguageRequest updateLanguageRequest) {
+        Result result = BusinnessRules.run(checkIfLanguageExists(updateLanguageRequest.getLanguageId()));
+        if (result != null) {
+            return result;
+        }
         Language language = modelMapperService.forRequest().map(updateLanguageRequest, Language.class);
         this.languageDao.save(language);
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.LanguageUpdated));
@@ -62,7 +67,10 @@ public class LanguageManager implements LanguageService {
 
     @Override
     public Result delete(DeleteLanguageRequest deleteLanguageRequest) {
-
+        Result result = BusinnessRules.run(checkIfLanguageExists(deleteLanguageRequest.getLanguageId()));
+        if (result != null) {
+            return result;
+        }
         this.languageDao.deleteById(deleteLanguageRequest.getLanguageId());
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.LanguageDeleted));
     }
@@ -78,4 +86,10 @@ public class LanguageManager implements LanguageService {
         }
     }
 
+    public Result checkIfLanguageExists(int languageId) {
+        if (!this.languageDao.existsById(languageId)) {
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.LanguageNotFound));
+        }
+        return new SuccesResult();
+    }
 }

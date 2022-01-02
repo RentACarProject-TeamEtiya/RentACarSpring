@@ -61,6 +61,10 @@ public class WordManager implements WordService {
 
     @Override
     public Result update(UpdateWordRequest updateWordRequest) {
+        Result result = BusinnessRules.run(checkIfWordExists(updateWordRequest.getWordId()));
+        if (result != null) {
+            return result;
+        }
         Word word = modelMapperService.forRequest().map(updateWordRequest, Word.class);
         this.wordDao.save(word);
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.WordUpdated));
@@ -68,6 +72,10 @@ public class WordManager implements WordService {
 
     @Override
     public Result delete(DeleteWordRequest deleteWordRequest) {
+        Result result = BusinnessRules.run(checkIfWordExists(deleteWordRequest.getWordId()));
+        if (result != null) {
+            return result;
+        }
         this.wordDao.deleteById(deleteWordRequest.getWordId());
         return new SuccesResult(languageWordService.getByLanguageAndKeyId(Messages.WordDeleted));
     }
@@ -93,6 +101,13 @@ public class WordManager implements WordService {
         Word word = this.wordDao.getByKey(key);
         if (word != null){
             return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.KeyDuplicated));
+        }
+        return new SuccesResult();
+    }
+
+    public Result checkIfWordExists(int wordId) {
+        if (!this.wordDao.existsById(wordId)) {
+            return new ErrorResult(languageWordService.getByLanguageAndKeyId(Messages.WordNotFound));
         }
         return new SuccesResult();
     }
